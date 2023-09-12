@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Template</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: gainsboro;
+        }
+
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: #EBE7E4;
+            box-shadow: 0px 0px 10px 0px grey;
+        }
+
+        .first-div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .first-div .left-panel {
+            margin-left: 70px;
+            padding: 10px;
+        }
+
+        #company-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .first-div .right-panel {
+            margin-right: 70px;
+            padding: 10px;
+        }
+
+        .first-div .right-panel a {
+            margin-right: 10px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content input[type="checkbox"],
+        .dropdown-content label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #f9f9f9;
+            min-width: 300px;
+            min-height: 300px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        .dropdown-content label {
+            display: block;
+            padding: 2px 5px;
+            margin: 0px 5px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content #search {
+            width: 90%;
+            height: 30px;
+            font-size: 15px;
+            padding: 0px 5px;
+            margin: 10px;
+        }
+
+        .second-div {
+            display: flex;
+            justify-content: space-between;
+            margin: 0px 75px 10px 75px;
+            padding: 3px;
+        }
+
+        .second-div button {
+            width: 220px;
+            height: 35px;
+            text-align: left;
+            background-color: #F5F5F5;
+            border: 1px solid grey;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .filter-container {
+            background-color: #FFFFFF;
+            padding: 15px;
+            max-width: 1116px;
+            margin: 40px auto;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px 0.05px #333;
+        }
+
+        .filter-heading {
+            margin-bottom: 16px;
+        }
+
+        .filter-text {
+            color: black;
+            margin: 0;
+        }
+
+        .filter-options {
+            display: flex;
+        }
+
+        .filter-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #F5F5F5;
+            color: black;
+            text-decoration: none;
+            border: 1px solid #333;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .filter-link:hover {
+            background-color: black;
+            color: white;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        #innerSearch {
+            padding: 10px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search input {
+            padding: 10px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 0px 50px;
+        }
+
+        .box {
+            max-width: 250px;
+            display: inline-block;
+            background-color: #FFFFA2;
+            margin: 10px;
+            color: #000;
+            padding: 11px;
+            cursor: pointer;
+            border-radius: 3px;
+            box-shadow: 0px 0px 5px #333;
+        }
+
+        .box a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        footer {
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #ccc;
+            box-shadow: 0 -5px 5px -5px #333;
+            margin-top: 10px;
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer p {
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="topmost">
+    <header class="header">
+        <div class="first-div">
+            <div class="left-panel">
+                <img src="https://static.hasjob.co/static/img/hasjob-logo.png" height="30px" width="30px"
+                     alt="logo">
+                <span id="company-name">HasJob</span>
+                <span>The Hasgeek Job Board</span>
+            </div>
+            <div class="right-panel">
+                <a href="#">Login</a>
+                <span><img src="" alt="icon"></span>
+            </div>
+        </div>
+
+        <form th:action="@{/job/dashboard}" method="get" onchange="this.submit()">
+            <div class="second-div">
+                <div class="dropdown">
+                    <button class="dropbtn" onclick="toggleDropdown('dropdown1',event)">Location</button>
+                    <div class="dropdown-content" id="dropdown1">
+                        <input id="search" type="text" placeholder="Search...">
+                        <label th:each="location : ${locations}">
+                            <input type="checkbox" th:value="${location}" name="location"
+                            th:checked="${checkedLocations != null and #strings.contains(checkedLocations,location)}">
+                            <span th:text="${location}"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropbtn" onclick="toggleDropdown('dropdown2',event)">Job Type</button>
+                    <div class="dropdown-content" id="dropdown2">
+                        <label th:each="jobType : ${jobTypes}">
+                            <input type="checkbox" th:value="${jobType}" name="filterJobType"
+                            th:checked="${checkedJobType != null and #strings.contains(checkedJobType,jobType)}">
+                            <span th:text="${jobType}"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropbtn" onclick="toggleDropdown('dropdown3',event)">Job Category</button>
+                    <div class="dropdown-content" id="dropdown3">
+                        <label th:each="jobCategory : ${jobCategories}">
+                            <input type="checkbox" th:value="${jobCategory}" name="filterJobCategory"
+                                   th:checked="${checkedJobCategory != null and #strings.contains(checkedJobCategory,jobCategory)}">
+                            <span th:text="${jobCategory}"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropbtn" onclick="toggleDropdown('dropdown4',event)">Pay</button>
+                    <div class="dropdown-content" id="dropdown4">
+                        <label th:each="payingType : ${payOptions}">
+                            <input type="checkbox" th:value="${payingType}" name="filterPayingType"
+                                   th:checked="${checkedPayingType != null and #strings.contains(checkedPayingType,payingType)}">
+                            <span th:text="${payingType}"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="search">
+                    <input id="searchInput" type="text" name="searchInput" placeholder="Search..."
+                           th:value="${search}">
+                </div>
+            </div>
+        </form>
+    </header>
+
+    <main>
+        <div class="filter-container">
+            <div class="filter-heading">
+                <p class="filter-text">In Mumbai? Filter this view :</p>
+            </div>
+            <form th:action="@{/job/dashboard}" method="get">
+                <div class="filter-options">
+                    <button type="submit" class="filter-link" name="selectedValue" value="Mumbai">Mumbai, IN</button>
+                    <button type="submit" class="filter-link" name="selectedValue" value="Maharashtra">Maharashtra, IN (state)</button>
+                    <button type="submit" class="filter-link" name="selectedValue" value="India">India (country)</button>
+                    <button type="submit" class="filter-link" name="selectedValue" value="Asia">Asia (continent)</button>
+                    <button type="submit" class="filter-link" name="selectedValue" value="Anywhere">Anywhere</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="box-container">
+            <div class="box" th:each="job : ${jobs}">
+                <a th:href="@{/job/viewJob/{id} (id=${job.id})}" th:text="${job.jobDescription}"></a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<footer>
+    <div>
+        <p>Hasjob is a service of <a>Hasgeek</a>. Subscribe to <a>the feed</a> or follow <a>@hasjob on
+            Twitter</a> to find out when new jobs are posted.</p>
+    </div>
+</footer>
+
+<script>
+
+    function toggleDropdown(id, event) {
+        event.preventDefault(); // Prevent form submission
+
+        var dropdown = document.getElementById(id);
+        var dropdowns = document.querySelectorAll('.dropdown-content');
+        dropdowns.forEach(function(d) {
+            if (d.id !== id) {
+                d.style.display = 'none';
+            }
+        });
+        dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
+    }
+
+    document.getElementById('search').addEventListener('input', function(event) {
+        const searchValue = event.target.value.toLowerCase();
+        const labels = document.querySelectorAll('#dropdown1 label span');
+
+        labels.forEach(label => {
+            const location = label.textContent.toLowerCase();
+            const checkbox = label.parentElement.querySelector('input[type="checkbox"]');
+            if (location.includes(searchValue)) {
+                label.parentElement.style.display = 'block';
+            } else {
+                label.parentElement.style.display = 'none';
+                checkbox.checked = false; // Uncheck hidden checkboxes
+            }
+        });
+
+        // Prevent form submission
+        event.preventDefault();
+        return false;
+    });
+
+</script>
+</body>
+</html>

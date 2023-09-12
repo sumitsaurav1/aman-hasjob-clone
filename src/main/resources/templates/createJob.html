@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Job</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: #EBE7E4;
+            box-shadow: 0px 0px 10px 0px grey;
+        }
+
+        .first-div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 0px;
+        }
+
+        .first-div .left-panel {
+            margin-left: 70px;
+            padding: 10px;
+        }
+
+        .first-div .right-panel {
+            margin-right: 70px;
+            padding: 10px;
+        }
+
+        .first-div .right-panel a {
+            margin-right: 10px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content input[type="checkbox"],
+        .dropdown-content label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #f9f9f9;
+            min-width: 300px;
+            min-height: 300px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        .dropdown-content label {
+            display: block;
+            padding: 2px 5px;
+            margin: 0px 5px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content #search {
+            width: 90%;
+            height: 30px;
+            font-size: 15px;
+            padding: 0px 5px;
+            margin: 10px;
+        }
+
+        .second-div {
+            display: flex;
+            justify-content: space-between;
+            margin: 0px 75px 5px 70px;
+            padding: 3px;
+        }
+
+        .second-div button {
+            width: 222px;
+            height: 35px;
+            text-align: left;
+            font-size: 13px;
+            background-color: #F5F5F5;
+            border: 1px solid grey;
+            border-radius: 3px;
+            cursor: pointer;
+            padding-left: 5px;
+            margin: 0px 5px 5px 5px;
+            color: black;
+        }
+
+        .header .search input {
+            padding: 10px;
+            width: 215px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 0px;
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        main {
+            max-width: 875px;
+            margin: 50px auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0px 0px 10px grey;
+            padding: 20px 40px;
+        }
+
+        h1 {
+            color: #df5e0e;
+            font-size: 35px;
+            margin: 0 0 10px;
+        }
+
+        h2, h4 {
+            color: #333;
+            margin: 0 0 10px;
+        }
+
+        p {
+            margin: 0 0 10px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        input[type="text"], input[type="file"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #ccc;
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer p {
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="first-div">
+        <div class="left-panel">
+            <img src="" alt="logo">
+            <span>HasJob</span>
+            <span>The Hasgeek Job Board</span>
+        </div>
+        <div class="right-panel">
+            <a href="#">Login</a>
+            <span><img src="" alt="icon"></span>
+        </div>
+    </div>
+
+    <form th:action="@{/job/dashboard}" method="get" onchange="this.submit()">
+        <div class="second-div">
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('dropdown1',event)">Location</button>
+                <div class="dropdown-content" id="dropdown1">
+                    <input id="search" type="text" placeholder="Search...">
+                    <label th:each="location : ${locations}">
+                        <input type="checkbox" th:value="${location}" name="location">
+                        <span th:text="${location}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('dropdown2',event)">Job Type</button>
+                <div class="dropdown-content" id="dropdown2">
+                    <label th:each="jobType : ${jobTypes}">
+                        <input type="checkbox" th:value="${jobType}" name="jobType">
+                        <span th:text="${jobType}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('dropdown3',event)">Job Category</button>
+                <div class="dropdown-content" id="dropdown3">
+                    <label th:each="jobCategory : ${jobCategories}">
+                        <input type="checkbox" th:value="${jobCategory}" name="jobCategory">
+                        <span th:text="${jobCategory}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('dropdown4',event)">Pay</button>
+                <div class="dropdown-content" id="dropdown4">
+                    <label th:each="pay : ${payOptions}">
+                        <input type="checkbox" th:value="${pay}" name="pay">
+                        <span th:text="${jobCategory}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="search">
+                <input id="searchInput" type="text" name="search" placeholder="Search..."
+                       th:value="${search}">
+            </div>
+        </div>
+    </form>
+</header>
+
+    <main>
+        <form>
+            <div>
+                <div>
+                    <h1>Post a Job</h1>
+                    <div>
+                        <p>Hasjob is visited by thousands of developers every month.
+                            Posts are valid for 30 days.</p>
+                        <p><strong>Attention, recruiters:</strong> You may NOT use this site to post jobs on
+                            behalf of your clients. We accept posts for your own firm only. Please read the
+                            <a>terms of service</a> and ask your clients to list for themselves.</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <h2>First, tell us about the position</h2>
+                    <div>
+                        <div>
+                            <h4>Headline</h4>
+                        </div>
+                        <div>
+                            <input type="text" id="headline" name="headline" required>
+                            <p>A single-line summary. This goes to the front page and across the network.
+                                <a>A/B test it?</a></p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h4>Type</h4>
+                        </div>
+                        <div>
+                            <input type="radio" id="fullTimeEmployment">
+                            <label for="fullTimeEmployment">Full-time employment</label>
+                            <br>
+
+                            <input type="radio" id="shortTermContract">
+                            <label for="shortTermContract">Short term contract</label>
+                            <br>
+
+                            <input type="radio" id="internship">
+                            <label for="internship">Internship</label>
+                            <br>
+
+                            <input type="radio" id="freelanceOrConsulting">
+                            <label for="freelanceOrConsulting">Freelance or consulting</label>
+                            <br>
+
+                            <input type="radio" id="volunteerContributor">
+                            <label for="volunteerContributor">Volunteer contributor</label>
+                            <br>
+
+                            <input type="radio" id="partnerForAVenture">
+                            <label for="partnerForAVenture">Partner for a venture</label>
+                            <br>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h4>Category</h4>
+                        </div>
+                        <div>
+                            <input type="radio" id="programming">
+                            <label for="programming">Programming</label>
+                            <br>
+
+                            <input type="radio" id="interactionDesign">
+                            <label for="interactionDesign">Interaction Design</label>
+                            <br>
+
+                            <input type="radio" id="graphicDesign">
+                            <label for="graphicDesign">Graphic Design</label>
+                            <br>
+
+                            <input type="radio" id="electronics">
+                            <label for="electronics">Electronics</label>
+                            <br>
+
+                            <input type="radio" id="informationSecurity">
+                            <label for="informationSecurity">Information Security</label>
+                            <br>
+
+                            <input type="radio" id="testing">
+                            <label for="testing">Testing/Quality Assurance</label>
+                            <br>
+
+                            <input type="radio" id="systemAdministration">
+                            <label for="systemAdministration">IT/System Administration</label>
+                            <br>
+
+                            <input type="radio" id="business">
+                            <label for="business">Business/Management</label>
+                            <br>
+
+                            <input type="radio" id="writer">
+                            <label for="writer">Writer/Editor</label>
+                            <br>
+
+                            <input type="radio" id="customerSupport">
+                            <label for="customerSupport">Customer Support</label>
+                            <br>
+
+                            <input type="radio" id="mobile">
+                            <label for="mobile">Mobile (iPhone, Android, other)</label>
+                            <br>
+
+                            <input type="radio" id="officeAdministration">
+                            <label for="officeAdministration">Office Administration</label>
+                            <br>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h4>Location</h4>
+                        </div>
+                        <div>
+                            <div>
+                                <input type="text" id="location" required>
+                                <p>“Bangalore”, “Chennai”, “Pune”, etc or “Anywhere” (without quotes)</p>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="relocation">
+                                <label for="relocation">Relocation assistance available</label>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <h4>Description</h4>
+                                <textarea rows="10" cols="100"></textarea>
+                                <p>Don’t just describe the job, tell a compelling story for why someone should
+                                    work for you</p>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="jobPerks">
+                                <label for="jobPerks">Job perks are available</label>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <p><strong>what does this job pay ?</strong></p>
+
+                                <div>
+                                    <input type="radio" id="nothing">
+                                    <label for="nothing">Nothing</label>
+                                    <br>
+
+                                    <input type="radio" id="oneTime">
+                                    <label for="oneTime">One Time</label>
+                                    <br>
+
+                                    <input type="radio" id="recurring">
+                                    <label for="recurring">Recurring</label>
+                                    <br>
+                                </div>
+                            </div>
+                            <br>
+                            <div>
+                                <input type="checkbox" id="equityCompensation">
+                                <label for="equityCompensation">Equity compensation is available</label>
+                            </div>
+                            <div>
+                                <p>Candidates can’t see what this job pays, but can search for jobs matching
+                                    their expected pay scale</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p><strong>What should a candidate submit when applying for this job?</strong></p>
+                            <textarea rows="4" cols="100"></textarea>
+                        </div>
+                        <div>
+                            Example: “Include your LinkedIn and GitHub profiles.” We now require candidates to
+                            apply through the job board only. Do not include any contact information here.
+                            Candidates CANNOT attach resumes or other documents, so do not ask for that
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <h2>Next, tell us about your organization</h2>
+                    <div>
+                        <div>
+                            <h4>Employer name</h4>
+                        </div>
+                        <div>
+                            <input type="text" id="employerName">
+                            <p>The name of the organization where the position is. If your stealth startup doesn't
+                                have a name yet, use your own. We do not accept posts from third parties such as
+                                recruitment consultants. Such posts may be removed without notice</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h4>Logo</h4>
+                        </div>
+                        <div>
+                            <input type="file"><br>
+                            <p>Optional — Your organization’s logo will appear at the top of your post.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h4>URL</h4>
+                        </div>
+                        <div>
+                            <input type="text">
+                            <p>Your organization’s website</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h4>Email</h4>
+                        </div>
+                        <div>
+                            <input>
+                            <p>This is where we’ll send your confirmation email and all job applications.
+                                We recommend using a shared email address such as jobs@your-organization.com.
+                                <strong>Listings are classified by your email domain</strong>, so use a work
+                                email address. Your email address will not be revealed to applicants until
+                                you respond</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Only you, Aman Sachan, will be able to respond to candidates. To allow others to
+                            respond, add them as a collaborator.</p>
+                    </div>
+                    <div>
+                        <div>Collaborators</div>
+                        <br>
+                        <div>
+                            <input type="text">
+                            <p>If someone is helping you evaluate candidates, type their names here.
+                                They must have a Hasgeek account. They will not receive email notifications
+                                — use a shared email address above for that — but they will be able to
+                                respond to candidates who apply</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>Is it okay for recruiters and other intermediaries to contact you about
+                            this post?</div>
+                        <div>
+                            <div>
+                                <input type="radio" id="notOk">
+                                <label for="notOk">No, it is NOT OK</label>
+                                <br>
+
+                                <input type="radio" id="recruitersContact">
+                                <label for="recruitersContact">Yes, recruiters may contact me</label>
+                                <br>
+                            </div>
+                        </div>
+                        <div>
+                            <p>We’ll display a notice to this effect on the post</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p><strong>Warning:</strong> Many recruiters will ignore your preference and contact
+                            you anyway. Do not reveal your phone number in the post. If you receive an email,
+                            please report it to <a>support@hasgeek.com</a> and we will block their account</p>
+                    </div>
+                    <div>
+                        <button>Review your post</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+    <footer>
+        <div>
+            <p>Hasjob is a service of <a>Hasgeek</a>. Subscribe to <a>the feed</a> or follow <a>@hasjob on
+                Twitter</a> to find out when new jobs are posted.</p>
+        </div>
+    </footer>
+</body>
+</html>
