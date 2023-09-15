@@ -1,8 +1,6 @@
 package com.aman.majorProject.hasJob.controller;
 
-import com.aman.majorProject.hasJob.entity.Application;
 import com.aman.majorProject.hasJob.entity.Job;
-//import com.aman.majorProject.hasJob.entity.Organization;
 import com.aman.majorProject.hasJob.entity.Organizations;
 import com.aman.majorProject.hasJob.entity.Users;
 import com.aman.majorProject.hasJob.repository.JobRepository;

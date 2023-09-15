@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>View Job</title>
@@ -285,39 +285,39 @@
 <header class="header">
     <div class="first-div">
         <div class="left-panel">
-            <img src="https://static.hasjob.co/static/img/hasjob-logo.png" alt="logo"
-                 width="25px" height="25px">
+            <img alt="logo" height="25px"
+                 src="https://static.hasjob.co/static/img/hasjob-logo.png" width="25px">
             <span>HasJob</span>
             <span>The Hasgeek Job Board</span>
         </div>
         <div class="right-panel">
             <div class="button-container" sec:authorize="isAuthenticated()">
-                <form th:action="@{/job/createForm}" method="get">
+                <form method="get" th:action="@{/job/createForm}">
                     <button class="btn">Post a Job</button>
                 </form>
             </div>
             <div class="button-container" sec:authorize="isAuthenticated()">
-                <form th:action="@{/job/dashboard}" method="get">
+                <form method="get" th:action="@{/job/dashboard}">
                     <button class="btn">Back</button>
                 </form>
             </div>
             <div sec:authorize="!isAuthenticated()">
-                <form th:action="@{/user/loginForm}" method="get">
+                <form method="get" th:action="@{/user/loginForm}">
                     <button class="btn">Login</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <form th:action="@{/job/dashboard}" method="get" onchange="this.submit()">
+    <form method="get" onchange="this.submit()" th:action="@{/job/dashboard}">
         <div class="second-div">
             <div class="dropdown">
                 <button class="dropbtn" onclick="toggleDropdown('dropdown1',event)">Location</button>
                 <div class="dropdown-content" id="dropdown1">
-                    <input id="search" type="text" placeholder="Search...">
+                    <input id="search" placeholder="Search..." type="text">
                     <label th:each="location : ${locations}">
-                        <input type="checkbox" th:value="${location}" name="location"
-                               th:checked="${checkedLocations != null and #strings.contains(checkedLocations,location)}">
+                        <input name="location" th:checked="${checkedLocations != null and #strings.contains(checkedLocations,location)}" th:value="${location}"
+                               type="checkbox">
                         <span th:text="${location}"></span>
                     </label>
                 </div>
@@ -327,8 +327,8 @@
                 <button class="dropbtn" onclick="toggleDropdown('dropdown2',event)">Job Type</button>
                 <div class="dropdown-content" id="dropdown2">
                     <label th:each="jobType : ${jobTypes}">
-                        <input type="checkbox" th:value="${jobType}" name="filterJobType"
-                               th:checked="${checkedJobType != null and #strings.contains(checkedJobType,jobType)}">
+                        <input name="filterJobType" th:checked="${checkedJobType != null and #strings.contains(checkedJobType,jobType)}" th:value="${jobType}"
+                               type="checkbox">
                         <span th:text="${jobType}"></span>
                     </label>
                 </div>
@@ -338,8 +338,8 @@
                 <button class="dropbtn" onclick="toggleDropdown('dropdown3',event)">Job Category</button>
                 <div class="dropdown-content" id="dropdown3">
                     <label th:each="jobCategory : ${jobCategories}">
-                        <input type="checkbox" th:value="${jobCategory}" name="filterJobCategory"
-                               th:checked="${checkedJobCategory != null and #strings.contains(checkedJobCategory,jobCategory)}">
+                        <input name="filterJobCategory" th:checked="${checkedJobCategory != null and #strings.contains(checkedJobCategory,jobCategory)}" th:value="${jobCategory}"
+                               type="checkbox">
                         <span th:text="${jobCategory}"></span>
                     </label>
                 </div>
@@ -349,176 +349,177 @@
                 <button class="dropbtn" onclick="toggleDropdown('dropdown4',event)">Pay</button>
                 <div class="dropdown-content" id="dropdown4">
                     <label th:each="payingType : ${payOptions}">
-                        <input type="checkbox" th:value="${payingType}" name="filterPayingType"
-                               th:checked="${checkedPayingType != null and #strings.contains(checkedPayingType,payingType)}">
+                        <input name="filterPayingType" th:checked="${checkedPayingType != null and #strings.contains(checkedPayingType,payingType)}" th:value="${payingType}"
+                               type="checkbox">
                         <span th:text="${payingType}"></span>
                     </label>
                 </div>
             </div>
 
             <div class="search">
-                <input id="searchInput" type="text" name="searchInput" placeholder="Search..."
-                       th:value="${search}">
+                <input id="searchInput" name="searchInput" placeholder="Search..." th:value="${search}"
+                       type="text">
             </div>
         </div>
     </form>
 </header>
 
-    <main>
-        <div>
-            <section>
-                <div>
-                    <h1 th:text="${job.jobRole}"></h1>
-                    <p>Posted <span th:text="${job.postedOn}"></span> by <span th:text="${job.postedBy}"></span></p>
-                </div>
-                <div>
-                    <ul>
-                        <li><a>Adderall shop</a> |</li>
-                        <li><a th:text="${job.location}"></a> |</li>
-                        <li><a>adderall.shop</a> |</li>
-                        <li><a th:text="${job.jobType}"></a> |</li>
-                        <li><a th:text="${job.jobCategory}"></a></li>
-                    </ul>
-                </div>
-            </section>
-            <section class="having-sidebar">
-                <div class="main-content">
-                    <p th:text="${job.jobDescription}">
+<main>
+    <div>
+        <section>
+            <div>
+                <h1 th:text="${job.jobRole}"></h1>
+                <p>Posted <span th:text="${job.postedOn}"></span> by <span th:text="${job.postedBy}"></span></p>
+            </div>
+            <div>
+                <ul>
+                    <li><a>Adderall shop</a> |</li>
+                    <li><a th:text="${job.location}"></a> |</li>
+                    <li><a>adderall.shop</a> |</li>
+                    <li><a th:text="${job.jobType}"></a> |</li>
+                    <li><a th:text="${job.jobCategory}"></a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="having-sidebar">
+            <div class="main-content">
+                <p th:text="${job.jobDescription}">
+                    <br>
+                    <br>
+                <p th:if="job.url != null" th:text="${job.url}"></p></p>
+            </div>
+            <div class="sidebar">
+                <a>Bookmark this</a>
+                <a>Email this</a>
+                <a th:href="@{'http://www.twitter.com/intent/?text=' + ${job.jobRole}}">Tweet this</a>
+                <a href="http://www.facebook.com">Share on Facebook</a>
+                <a>Report this</a>
+            </div>
+        </section>
+        <section>
+            <div sec:authorize="isAuthenticated()">
+                <h2>Apply for this position</h2>
+                <button id="showButton" onclick="toggleInstructions()">Show Instructions</button>
+                <form method="post" th:action="@{/job/bookmark}">
+                    <input name="jobId" th:value="${job.id}" type="hidden">
+                    <button style="margin-top: 5px" type="submit">Save</button>
+                </form>
+                <p>Candidate should have great marketing & SEO Skills</p>
+            </div>
+            <div id="instructions" style="display: none">
+                <form method="post" th:action="@{/application/save}">
+                    <div>
+                        <div>
+                            <h4>Name</h4>
+                        </div>
+                        <div>
+                            <input name="name" readonly th:value="${loggedInUser}" type="text">
+                            <p>You may edit your name from <a>your profile</a></p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h4>Email</h4>
+                        </div>
+                        <div>
+                            <input name="email" type="text">
+                            <p>Add new email addresses from <a>your profile</a></p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h4>Phone</h4>
+                        </div>
+                        <div>
+                            <input name="phone" type="tel">
+                            <p>A phone number the employer can reach you at</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Job Application</h4>
+                        <textarea cols="100" name="jobApplication" rows="10"></textarea>
+                        <p>Please provide all details the employer has requested. To add a resume,
+                            post it on LinkedIn or host the file on Dropbox and insert the link here</p>
+                    </div>
+                    <div>
+                        <input id="optional" name="contactYouForNewFeatures" type="checkbox">
+                        <label for="optional">Optional: sign me up for a better Hasjob experience</label>
                         <br>
-                        <br>
-                        <p th:if="job.url != null" th:text="${job.url}"></p></p>
-                </div>
-                <div class="sidebar">
-                    <a>Bookmark this</a>
-                    <a>Email this</a>
-                    <a th:href="@{'http://www.twitter.com/intent/?text=' + ${job.jobRole}}">Tweet this</a>
-                    <a href="http://www.facebook.com">Share on Facebook</a>
-                    <a>Report this</a>
-                </div>
-            </section>
-            <section>
-                <div sec:authorize="isAuthenticated()">
-                    <h2>Apply for this position</h2>
-                    <button id="showButton" onclick="toggleInstructions()">Show Instructions</button>
-                    <form th:action="@{/job/bookmark}" method="post">
-                        <input type="hidden" name="jobId" th:value="${job.id}">
-                        <button type="submit" style="margin-top: 5px">Save</button>
-                    </form>
-                    <p>Candidate should have great marketing & SEO Skills</p>
-                </div>
-                <div id="instructions" style="display: none">
-                    <form th:action="@{/application/save}" method="post">
-                        <div>
-                            <div>
-                                <h4>Name</h4>
-                            </div>
-                            <div>
-                                <input type="text" name="name" th:value="${loggedInUser}" readonly>
-                                <p>You may edit your name from <a>your profile</a></p>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <h4>Email</h4>
-                            </div>
-                            <div>
-                                <input type="text" name="email">
-                                <p>Add new email addresses from <a>your profile</a></p>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <h4>Phone</h4>
-                            </div>
-                            <div>
-                                <input type="tel" name="phone">
-                                <p>A phone number the employer can reach you at</p>
-                            </div>
-                        </div>
-                        <div>
-                            <h4>Job Application</h4>
-                            <textarea rows="10" cols="100" name="jobApplication"></textarea>
-                            <p>Please provide all details the employer has requested. To add a resume,
-                                post it on LinkedIn or host the file on Dropbox and insert the link here</p>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="optional" name="contactYouForNewFeatures">
-                            <label for="optional">Optional: sign me up for a better Hasjob experience</label>
-                            <br>
 
-                            <p>Hasjob’s maintainers may contact you about new features and can see this application
-                                for reference</p>
-                            <input type="hidden" name="jobId" th:value="${job.id}">
-                            <button type="submit">Apply</button>
-                        </div>
-                        <div>
-                            <p><strong>Note:</strong> Be selective about the jobs you apply for and mindful of the
-                                employer’s time. If too many employers report you for wasting their time with an
-                                irrelevant application, you will be barred from applying to more jobs. Employers can
-                                see how many other jobs you are applying to simultaneously and your status
-                                with them, but not which jobs you are applying to.</p>
-                        </div>
-                    </form>
-                </div>
-            </section>
-            <section>
-                <div><p>It is <strong>NOT OK</strong> for recruiters, HR consultants, and other intermediaries
-                    to contact this employer</p></div>
-            </section>
-        </div>
-    </main>
+                        <p>Hasjob’s maintainers may contact you about new features and can see this application
+                            for reference</p>
+                        <input name="jobId" th:value="${job.id}" type="hidden">
+                        <button type="submit">Apply</button>
+                    </div>
+                    <div>
+                        <p><strong>Note:</strong> Be selective about the jobs you apply for and mindful of the
+                            employer’s time. If too many employers report you for wasting their time with an
+                            irrelevant application, you will be barred from applying to more jobs. Employers can
+                            see how many other jobs you are applying to simultaneously and your status
+                            with them, but not which jobs you are applying to.</p>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section>
+            <div><p>It is <strong>NOT OK</strong> for recruiters, HR consultants, and other intermediaries
+                to contact this employer</p></div>
+        </section>
+    </div>
+</main>
 
-    <footer>
-        <div>
-            <p>Hasjob is a service of <a>Hasgeek</a>.Subscribe to <a>the feed</a>or follow <a href="https://twitter.com/hasjob">
-                @hasjob on Twitter</a> to find out when new jobs are posted.</p>
-        </div>
-    </footer>
+<footer>
+    <div>
+        <p>Hasjob is a service of <a>Hasgeek</a>.Subscribe to <a>the feed</a>or follow <a
+                href="https://twitter.com/hasjob">
+            @hasjob on Twitter</a> to find out when new jobs are posted.</p>
+    </div>
+</footer>
 
-    <script>
-        function toggleDropdown(id, event) {
-        event.preventDefault(); // Prevent form submission
+<script>
+    function toggleDropdown(id, event) {
+    event.preventDefault(); // Prevent form submission
 
-        var dropdown = document.getElementById(id);
-        var dropdowns = document.querySelectorAll('.dropdown-content');
-        dropdowns.forEach(function(d) {
-            if (d.id !== id) {
-                d.style.display = 'none';
-            }
-        });
-        dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
-    }
+    var dropdown = document.getElementById(id);
+    var dropdowns = document.querySelectorAll('.dropdown-content');
+    dropdowns.forEach(function(d) {
+        if (d.id !== id) {
+            d.style.display = 'none';
+        }
+    });
+    dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
+}
 
-    document.getElementById('search').addEventListener('input', function(event) {
-        const searchValue = event.target.value.toLowerCase();
-        const labels = document.querySelectorAll('#dropdown1 label span');
+document.getElementById('search').addEventListener('input', function(event) {
+    const searchValue = event.target.value.toLowerCase();
+    const labels = document.querySelectorAll('#dropdown1 label span');
 
-        labels.forEach(label => {
-            const location = label.textContent.toLowerCase();
-            const checkbox = label.parentElement.querySelector('input[type="checkbox"]');
-            if (location.includes(searchValue)) {
-                label.parentElement.style.display = 'block';
-            } else {
-                label.parentElement.style.display = 'none';
-                checkbox.checked = false; // Uncheck hidden checkboxes
-            }
-        });
-
-        // Prevent form submission
-        event.preventDefault();
-        return false;
+    labels.forEach(label => {
+        const location = label.textContent.toLowerCase();
+        const checkbox = label.parentElement.querySelector('input[type="checkbox"]');
+        if (location.includes(searchValue)) {
+            label.parentElement.style.display = 'block';
+        } else {
+            label.parentElement.style.display = 'none';
+            checkbox.checked = false; // Uncheck hidden checkboxes
+        }
     });
 
-        function toggleInstructions() {
-            var form = document.getElementById("instructions");
-            var button = document.getElementById("showButton");
+    // Prevent form submission
+    event.preventDefault();
+    return false;
+});
 
-            if (form.style.display === "none" || form.style.display === "") {
-                form.style.display = "block";
-                button.style.display = "none";
-            }
+    function toggleInstructions() {
+        var form = document.getElementById("instructions");
+        var button = document.getElementById("showButton");
+
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "block";
+            button.style.display = "none";
         }
+    }
 
-    </script>
+</script>
 </body>
 </html>

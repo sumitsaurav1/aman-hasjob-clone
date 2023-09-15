@@ -251,21 +251,21 @@
 <header class="header">
     <div class="first-div">
         <div class="left-panel">
-            <img src="https://static.hasjob.co/static/img/hasjob-logo.png" alt="logo"
-                 width="25px" height="25px">
+            <img alt="logo" height="25px"
+                 src="https://static.hasjob.co/static/img/hasjob-logo.png" width="25px">
             <span>HasJob</span>
             <span>The Hasgeek Job Board</span>
         </div>
     </div>
 
-    <form th:action="@{/job/dashboard}" method="get" onchange="this.submit()">
+    <form method="get" onchange="this.submit()" th:action="@{/job/dashboard}">
         <div class="second-div">
             <div class="dropdown">
                 <button class="dropbtn" onclick="toggleDropdown('dropdown1',event)">Location</button>
                 <div class="dropdown-content" id="dropdown1">
-                    <input id="search" type="text" placeholder="Search...">
+                    <input id="search" placeholder="Search..." type="text">
                     <label th:each="location : ${locations}">
-                        <input type="checkbox" th:value="${location}" name="location">
+                        <input name="location" th:value="${location}" type="checkbox">
                         <span th:text="${location}"></span>
                     </label>
                 </div>
@@ -275,7 +275,7 @@
                 <button class="dropbtn" onclick="toggleDropdown('dropdown2',event)">Job Type</button>
                 <div class="dropdown-content" id="dropdown2">
                     <label th:each="jobType : ${jobTypes}">
-                        <input type="checkbox" th:value="${jobType}" name="jobType">
+                        <input name="jobType" th:value="${jobType}" type="checkbox">
                         <span th:text="${jobType}"></span>
                     </label>
                 </div>
@@ -285,7 +285,7 @@
                 <button class="dropbtn" onclick="toggleDropdown('dropdown3',event)">Job Category</button>
                 <div class="dropdown-content" id="dropdown3">
                     <label th:each="jobCategory : ${jobCategories}">
-                        <input type="checkbox" th:value="${jobCategory}" name="jobCategory">
+                        <input name="jobCategory" th:value="${jobCategory}" type="checkbox">
                         <span th:text="${jobCategory}"></span>
                     </label>
                 </div>
@@ -295,39 +295,39 @@
                 <button class="dropbtn" onclick="toggleDropdown('dropdown4',event)">Pay</button>
                 <div class="dropdown-content" id="dropdown4">
                     <label th:each="pay : ${payOptions}">
-                        <input type="checkbox" th:value="${pay}" name="pay">
+                        <input name="pay" th:value="${pay}" type="checkbox">
                         <span th:text="${jobCategory}"></span>
                     </label>
                 </div>
             </div>
 
             <div class="search">
-                <input id="searchInput" type="text" name="search" placeholder="Search..."
-                       th:value="${search}">
+                <input id="searchInput" name="search" placeholder="Search..." th:value="${search}"
+                       type="text">
             </div>
         </div>
     </form>
 </header>
 
 <main>
-    <form th:action="@{/job/createJob}" method="post">
-        <input type="hidden" name="organizationName" th:value="${organization.organizationName}">
-        <input type="hidden" name="organizationUrl" th:value="${organization.organizationUrl}">
-        <input type="hidden" name="organizationEmail" th:value="${organization.organizationEmail}">
-        <input type="hidden" name="collaborators" th:value="${organization.collaborators}">
-        <input type="hidden" name="contactYou" th:value="${organization.contactYou}">
-        <input type="hidden" name="jobType" th:value="${job.jobType}">
-        <input type="hidden" name="jobCategory" th:value="${job.jobCategory}">
-        <input type="hidden" name="jobRole" th:value="${job.jobRole}">
-        <input type="hidden" name="location" th:value="${job.location}">
-        <input type="hidden" name="jobDescription" th:value="${job.jobDescription}">
-        <input type="hidden" name="payingType" th:value="${job.payingType}">
-        <input type="hidden" name="url" th:value="${job.url}">
-        <input type="hidden" name="postedBy" th:value="${job.postedBy}">
-        <input type="hidden" name="postedOn" th:value="${job.postedOn}">
-        <input type="hidden" name="equity" th:value="${job.equity}">
-        <input type="hidden" name="perks" th:value="${job.perks}">
-        <input type="hidden" name="relocation" th:value="${job.relocation}">
+    <form method="post" th:action="@{/job/createJob}">
+        <input name="organizationName" th:value="${organization.organizationName}" type="hidden">
+        <input name="organizationUrl" th:value="${organization.organizationUrl}" type="hidden">
+        <input name="organizationEmail" th:value="${organization.organizationEmail}" type="hidden">
+        <input name="collaborators" th:value="${organization.collaborators}" type="hidden">
+        <input name="contactYou" th:value="${organization.contactYou}" type="hidden">
+        <input name="jobType" th:value="${job.jobType}" type="hidden">
+        <input name="jobCategory" th:value="${job.jobCategory}" type="hidden">
+        <input name="jobRole" th:value="${job.jobRole}" type="hidden">
+        <input name="location" th:value="${job.location}" type="hidden">
+        <input name="jobDescription" th:value="${job.jobDescription}" type="hidden">
+        <input name="payingType" th:value="${job.payingType}" type="hidden">
+        <input name="url" th:value="${job.url}" type="hidden">
+        <input name="postedBy" th:value="${job.postedBy}" type="hidden">
+        <input name="postedOn" th:value="${job.postedOn}" type="hidden">
+        <input name="equity" th:value="${job.equity}" type="hidden">
+        <input name="perks" th:value="${job.perks}" type="hidden">
+        <input name="relocation" th:value="${job.relocation}" type="hidden">
         <section>
             <div>
                 <h1 th:text="${job.jobRole}"></h1>
@@ -359,7 +359,8 @@
         </section>
         <button type="submit">Apply</button>
         <section>
-            <div><p>It is <strong><span th:text="${organization.contactYou}"></span></strong> for recruiters, HR consultants, and other intermediaries
+            <div><p>It is <strong><span th:text="${organization.contactYou}"></span></strong> for recruiters, HR
+                consultants, and other intermediaries
                 to contact this employer</p></div>
         </section>
     </form>
@@ -367,7 +368,8 @@
 
 <footer>
     <div>
-        <p>Hasjob is a service of <a>Hasgeek</a>.Subscribe to <a>the feed</a>or follow <a href="https://twitter.com/hasjob">
+        <p>Hasjob is a service of <a>Hasgeek</a>.Subscribe to <a>the feed</a>or follow <a
+                href="https://twitter.com/hasjob">
             @hasjob on Twitter</a> to find out when new jobs are posted.</p>
     </div>
 </footer>

@@ -2,8 +2,6 @@ package com.aman.majorProject.hasJob.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "job_application")
 public class Application {

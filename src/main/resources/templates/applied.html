@@ -1,114 +1,114 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Applied</title>
-  <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        color: #333;
-        margin: 0;
-        padding: 0;
-    }
+    <meta charset="UTF-8">
+    <title>Applied</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
 
-    .box-top-div {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        font-size: 12px;
-        font-weight: 600;
-        color: #816894;
-    }
+        .box-top-div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #816894;
+        }
 
-    .box-bottom-div {
-        font-size: 12px;
-        margin-top: 10px;
-        font-weight: 600;
-        color: #816894;
-    }
+        .box-bottom-div {
+            font-size: 12px;
+            margin-top: 10px;
+            font-weight: 600;
+            color: #816894;
+        }
 
-    .box-middle-div {
-        padding: 5px 10px;
-    }
+        .box-middle-div {
+            padding: 5px 10px;
+        }
 
-    .box-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        margin: 0px 50px;
-    }
+        .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 0px 50px;
+        }
 
-    .box {
-        width: 250px;
-        display: inline-block;
-        background-color: #FFFFA2;
-        margin: 10px;
-        color: #000;
-        padding: 5px;
-        cursor: pointer;
-        border-radius: 3px;
-        box-shadow: 0px 0px 5px #333;
-    }
+        .box {
+            width: 250px;
+            display: inline-block;
+            background-color: #FFFFA2;
+            margin: 10px;
+            color: #000;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 3px;
+            box-shadow: 0px 0px 5px #333;
+        }
 
-    .box a {
-        text-decoration: none;
-        color: #000;
-    }
+        .box a {
+            text-decoration: none;
+            color: #000;
+        }
 
-    .button-container {
-        margin-right: 10px;
-        display: flex;
-        justify-content: center;
-    }
+        .button-container {
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+        }
 
-    .btn {
-        padding: 5px 20px;
-        background-color: #333;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        margin: 0px;
-    }
+        .btn {
+            padding: 5px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 0px;
+        }
 
-    .btn:hover {
-        background-color: #ff0000;
-        color: black;
-    }
+        .btn:hover {
+            background-color: #ff0000;
+            color: black;
+        }
 
-    h2 {
-      text-align: center;
-      font-size: 30px;
-    }
-  </style>
+        h2 {
+          text-align: center;
+          font-size: 30px;
+        }
+    </style>
 </head>
 <body>
 <main>
-  <div>
-    <h2>Applied Jobs</h2>
-  </div>
-  <div class="box-container">
-    <div class="box" th:each="job : ${appliedJobs}">
-      <div class="box-top-div">
-        <span th:text="${job.location}"></span>
-        <span th:text="${job.postedOn}"></span>
-      </div>
-      <div class="box-middle-div">
-        <span th:text="${job.jobRole}"></span>
-      </div>
-      <div class="box-bottom-div">
-        <span th:text="${job.postedBy}"></span>
-      </div>
+    <div>
+        <h2>Applied Jobs</h2>
     </div>
-  </div>
-  <div class="button-container" sec:authorize="isAuthenticated()">
-    <form th:action="@{/job/dashboard}" method="get">
-      <button class="btn">Back</button>
-    </form>
-  </div>
+    <div class="box-container">
+        <div class="box" th:each="job : ${appliedJobs}">
+            <div class="box-top-div">
+                <span th:text="${job.location}"></span>
+                <span th:text="${job.postedOn}"></span>
+            </div>
+            <div class="box-middle-div">
+                <span th:text="${job.jobRole}"></span>
+            </div>
+            <div class="box-bottom-div">
+                <span th:text="${job.postedBy}"></span>
+            </div>
+        </div>
+    </div>
+    <div class="button-container" sec:authorize="isAuthenticated()">
+        <form method="get" th:action="@{/job/dashboard}">
+            <button class="btn">Back</button>
+        </form>
+    </div>
 </main>
 </body>
 </html>

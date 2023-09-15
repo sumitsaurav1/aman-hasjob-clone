@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Bookmarks</title>
@@ -91,32 +91,32 @@
     </style>
 </head>
 <body>
-    <h2>Bookmarks</h2>
-    <main>
-        <div class="box-container">
-            <div class="box" th:each="job : ${bookmarkedJobs}">
-                <div class="box-top-div">
-                    <span th:text="${job.location}"></span>
-                    <span th:text="${job.postedOn}"></span>
-                </div>
-                <div class="box-middle-div">
-                    <a th:href="@{/job/viewJob/{id} (id=${job.id})}" th:text="${job.jobRole}"></a>
-                </div>
-                <div class="box-bottom-div">
-                    <span th:text="${job.postedBy}"></span>
-                    <span>
-                        <form th:action="@{/job/removeBookmark/{jobId} (jobId=${job.id})}" method="post">
+<h2>Bookmarks</h2>
+<main>
+    <div class="box-container">
+        <div class="box" th:each="job : ${bookmarkedJobs}">
+            <div class="box-top-div">
+                <span th:text="${job.location}"></span>
+                <span th:text="${job.postedOn}"></span>
+            </div>
+            <div class="box-middle-div">
+                <a th:href="@{/job/viewJob/{id} (id=${job.id})}" th:text="${job.jobRole}"></a>
+            </div>
+            <div class="box-bottom-div">
+                <span th:text="${job.postedBy}"></span>
+                <span>
+                        <form method="post" th:action="@{/job/removeBookmark/{jobId} (jobId=${job.id})}">
                             <button type="submit">remove</button>
                         </form>
                     </span>
-                </div>
             </div>
         </div>
-        <div class="button-container" sec:authorize="isAuthenticated()">
-            <form th:action="@{/job/dashboard}" method="get">
-                <button class="btn">Back</button>
-            </form>
-        </div>
-    </main>
+    </div>
+    <div class="button-container" sec:authorize="isAuthenticated()">
+        <form method="get" th:action="@{/job/dashboard}">
+            <button class="btn">Back</button>
+        </form>
+    </div>
+</main>
 </body>
 </html>

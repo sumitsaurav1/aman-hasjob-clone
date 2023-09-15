@@ -24,22 +24,6 @@ public interface JobRepository extends JpaRepository<Job,Integer> {
     @Query("SELECT DISTINCT j.payingType FROM Job j")
     List<String> findAllPay();
 
-//    @Query("SELECT j FROM Job j WHERE j.location LIKE %:search% OR j.jobType LIKE %:search% OR j.jobCategory " +
-//            "LIKE %:search% OR j.jobDescription LIKE %:search% OR j.jobRole LIKE %:search%")
-//    List<Job> findJobsBySearch(@Param("search") String search);
-//
-//    @Query("SELECT j FROM Job j " +
-//            "WHERE j.location IN :checkedLocations " +
-//            "OR j.jobType IN :checkedJobType " +
-//            "OR j.jobCategory IN :checkedJobCategory " +
-//            "OR j.payingType IN :checkedPayingType")
-//    List<Job> findJobsByFilters(
-//            @Param("checkedLocations") List<String> checkedLocations,
-//            @Param("checkedJobType") List<String> checkedJobType,
-//            @Param("checkedJobCategory") List<String> checkedJobCategory,
-//            @Param("checkedPayingType") List<String> checkedPayingType
-//    );
-
     @Query("SELECT j FROM Job j " +
             "WHERE " +
             "(:searchTerm IS NULL OR " +
@@ -79,7 +63,6 @@ public interface JobRepository extends JpaRepository<Job,Integer> {
             @Param("emptyJobCategories") boolean emptyJobCategories,
             @Param("emptyPayingTypes") boolean emptyPayingTypes
     );
-
 
     @Query("SELECT j FROM Job j WHERE j.location = :selectedValue")
     List<Job> findJobsBySelectedValue(String selectedValue);
