@@ -29,7 +29,7 @@ public class Organization {
     @Column(name = "contact_you")
     private boolean contactYou;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "organization", cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.PERSIST})
     private List<Job> job = new ArrayList<>();
 
     public int getId() {
