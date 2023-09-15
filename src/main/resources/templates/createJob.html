@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Create Job</title>
@@ -173,10 +174,6 @@
             margin-top: 20px;
         }
 
-        button:hover {
-            background-color: #0056b3;
-        }
-
         footer {
             background-color: #f8f9fa;
             padding: 20px;
@@ -198,19 +195,64 @@
             margin-top: 5px;
         }
 
+        .button-container {
+            margin-right: 10px;
+            display: flex;
+        }
+
+        .btn {
+            padding: 5px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 0px;
+        }
+
+        .btn:hover {
+            background-color: #ff0000;
+            color: black;
+        }
+
+        .company {
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
+        }
+
+        .company #company-name {
+            font-size: 22px;
+            padding-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .oneline {
+            display: flex;
+        }
     </style>
 </head>
 <body>
 <header class="header">
     <div class="first-div">
         <div class="left-panel">
-            <img src="" alt="logo">
+            <img src="https://static.hasjob.co/static/img/hasjob-logo.png" alt="logo"
+                 width="25px" height="25px">
             <span>HasJob</span>
             <span>The Hasgeek Job Board</span>
         </div>
         <div class="right-panel">
-            <a href="#">Login</a>
-            <span><img src="" alt="icon"></span>
+            <div class="button-container" sec:authorize="isAuthenticated()">
+                <form th:action="@{/job/dashboard}" method="get">
+                    <button class="btn">Back</button>
+                </form>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                <form th:action="@{/user/loginForm}" method="get">
+                    <button class="btn">Login</button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -221,7 +263,8 @@
                 <div class="dropdown-content" id="dropdown1">
                     <input id="search" type="text" placeholder="Search...">
                     <label th:each="location : ${locations}">
-                        <input type="checkbox" th:value="${location}" name="location">
+                        <input type="checkbox" th:value="${location}" name="location"
+                               th:checked="${checkedLocations != null and #strings.contains(checkedLocations,location)}">
                         <span th:text="${location}"></span>
                     </label>
                 </div>
@@ -231,7 +274,8 @@
                 <button class="dropbtn" onclick="toggleDropdown('dropdown2',event)">Job Type</button>
                 <div class="dropdown-content" id="dropdown2">
                     <label th:each="jobType : ${jobTypes}">
-                        <input type="checkbox" th:value="${jobType}" name="jobType">
+                        <input type="checkbox" th:value="${jobType}" name="filterJobType"
+                               th:checked="${checkedJobType != null and #strings.contains(checkedJobType,jobType)}">
                         <span th:text="${jobType}"></span>
                     </label>
                 </div>
@@ -241,7 +285,8 @@
                 <button class="dropbtn" onclick="toggleDropdown('dropdown3',event)">Job Category</button>
                 <div class="dropdown-content" id="dropdown3">
                     <label th:each="jobCategory : ${jobCategories}">
-                        <input type="checkbox" th:value="${jobCategory}" name="jobCategory">
+                        <input type="checkbox" th:value="${jobCategory}" name="filterJobCategory"
+                               th:checked="${checkedJobCategory != null and #strings.contains(checkedJobCategory,jobCategory)}">
                         <span th:text="${jobCategory}"></span>
                     </label>
                 </div>
@@ -250,15 +295,16 @@
             <div class="dropdown">
                 <button class="dropbtn" onclick="toggleDropdown('dropdown4',event)">Pay</button>
                 <div class="dropdown-content" id="dropdown4">
-                    <label th:each="pay : ${payOptions}">
-                        <input type="checkbox" th:value="${pay}" name="pay">
-                        <span th:text="${jobCategory}"></span>
+                    <label th:each="payingType : ${payOptions}">
+                        <input type="checkbox" th:value="${payingType}" name="filterPayingType"
+                               th:checked="${checkedPayingType != null and #strings.contains(checkedPayingType,payingType)}">
+                        <span th:text="${payingType}"></span>
                     </label>
                 </div>
             </div>
 
             <div class="search">
-                <input id="searchInput" type="text" name="search" placeholder="Search..."
+                <input id="searchInput" type="text" name="searchInput" placeholder="Search..."
                        th:value="${search}">
             </div>
         </div>
@@ -266,7 +312,7 @@
 </header>
 
     <main>
-        <form>
+        <form th:action="@{/job/reviewJob}" method="post">
             <div>
                 <div>
                     <h1>Post a Job</h1>
@@ -281,13 +327,13 @@
             </div>
             <div>
                 <div>
-                    <h2>First, tell us about the position</h2>
+                    <h2 style="color: #816894">First, tell us about the position</h2>
                     <div>
                         <div>
                             <h4>Headline</h4>
                         </div>
                         <div>
-                            <input type="text" id="headline" name="headline" required>
+                            <input type="text" id="jobRole" name="jobRole" required>
                             <p>A single-line summary. This goes to the front page and across the network.
                                 <a>A/B test it?</a></p>
                         </div>
@@ -297,27 +343,27 @@
                             <h4>Type</h4>
                         </div>
                         <div>
-                            <input type="radio" id="fullTimeEmployment">
+                            <input type="radio" id="fullTimeEmployment" name="jobType" value="Full-time employment">
                             <label for="fullTimeEmployment">Full-time employment</label>
                             <br>
 
-                            <input type="radio" id="shortTermContract">
+                            <input type="radio" id="shortTermContract" name="jobType" value="Short term contract">
                             <label for="shortTermContract">Short term contract</label>
                             <br>
 
-                            <input type="radio" id="internship">
+                            <input type="radio" id="internship" name="jobType" value="Internship">
                             <label for="internship">Internship</label>
                             <br>
 
-                            <input type="radio" id="freelanceOrConsulting">
+                            <input type="radio" id="freelanceOrConsulting" name="jobType" value="Freelance or consulting">
                             <label for="freelanceOrConsulting">Freelance or consulting</label>
                             <br>
 
-                            <input type="radio" id="volunteerContributor">
+                            <input type="radio" id="volunteerContributor" name="jobType" value="Volunteer contributor">
                             <label for="volunteerContributor">Volunteer contributor</label>
                             <br>
 
-                            <input type="radio" id="partnerForAVenture">
+                            <input type="radio" id="partnerForAVenture" name="jobType" value="Partner for a venture">
                             <label for="partnerForAVenture">Partner for a venture</label>
                             <br>
                         </div>
@@ -327,51 +373,51 @@
                             <h4>Category</h4>
                         </div>
                         <div>
-                            <input type="radio" id="programming">
+                            <input type="radio" id="programming" name="jobCategory" value="Programming">
                             <label for="programming">Programming</label>
                             <br>
 
-                            <input type="radio" id="interactionDesign">
+                            <input type="radio" id="interactionDesign" name="jobCategory" value="Interaction Design">
                             <label for="interactionDesign">Interaction Design</label>
                             <br>
 
-                            <input type="radio" id="graphicDesign">
+                            <input type="radio" id="graphicDesign" name="jobCategory" value="Graphic Design">
                             <label for="graphicDesign">Graphic Design</label>
                             <br>
 
-                            <input type="radio" id="electronics">
+                            <input type="radio" id="electronics" name="jobCategory" value="Electronics">
                             <label for="electronics">Electronics</label>
                             <br>
 
-                            <input type="radio" id="informationSecurity">
+                            <input type="radio" id="informationSecurity" name="jobCategory" value="Information Security">
                             <label for="informationSecurity">Information Security</label>
                             <br>
 
-                            <input type="radio" id="testing">
+                            <input type="radio" id="testing" name="jobCategory" value="Testing/Quality Assurance">
                             <label for="testing">Testing/Quality Assurance</label>
                             <br>
 
-                            <input type="radio" id="systemAdministration">
+                            <input type="radio" id="systemAdministration" name="jobCategory" value="IT/System Administration">
                             <label for="systemAdministration">IT/System Administration</label>
                             <br>
 
-                            <input type="radio" id="business">
+                            <input type="radio" id="business" name="jobCategory" value="Business/Management">
                             <label for="business">Business/Management</label>
                             <br>
 
-                            <input type="radio" id="writer">
+                            <input type="radio" id="writer" name="jobCategory" value="Writer/Editor">
                             <label for="writer">Writer/Editor</label>
                             <br>
 
-                            <input type="radio" id="customerSupport">
+                            <input type="radio" id="customerSupport" name="jobCategory" value="Customer Support">
                             <label for="customerSupport">Customer Support</label>
                             <br>
 
-                            <input type="radio" id="mobile">
+                            <input type="radio" id="mobile" name="jobCategory" value="Mobile (iPhone, Android, other)">
                             <label for="mobile">Mobile (iPhone, Android, other)</label>
                             <br>
 
-                            <input type="radio" id="officeAdministration">
+                            <input type="radio" id="officeAdministration" name="jobCategory" value="Office Administration">
                             <label for="officeAdministration">Office Administration</label>
                             <br>
                         </div>
@@ -382,48 +428,47 @@
                         </div>
                         <div>
                             <div>
-                                <input type="text" id="location" required>
+                                <input type="text" id="location" name="location" required>
                                 <p>“Bangalore”, “Chennai”, “Pune”, etc or “Anywhere” (without quotes)</p>
                             </div>
                             <div>
-                                <input type="checkbox" id="relocation">
+                                <input type="checkbox" id="relocation" name="relocation">
                                 <label for="relocation">Relocation assistance available</label>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <h4>Description</h4>
-                                <textarea rows="10" cols="100"></textarea>
+                                <textarea rows="8" cols="100" id="description" name="jobDescription"></textarea>
                                 <p>Don’t just describe the job, tell a compelling story for why someone should
                                     work for you</p>
                             </div>
                             <div>
-                                <input type="checkbox" id="jobPerks">
+                                <input type="checkbox" id="jobPerks" name="jobPerks">
                                 <label for="jobPerks">Job perks are available</label>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <p><strong>what does this job pay ?</strong></p>
-
                                 <div>
-                                    <input type="radio" id="nothing">
-                                    <label for="nothing">Nothing</label>
+                                    <input type="radio" id="nothing" name="payingType" value="INR">
+                                    <label for="nothing">INR</label>
                                     <br>
 
-                                    <input type="radio" id="oneTime">
-                                    <label for="oneTime">One Time</label>
+                                    <input type="radio" id="oneTime" name="payingType" value="USD">
+                                    <label for="oneTime">USD</label>
                                     <br>
 
-                                    <input type="radio" id="recurring">
-                                    <label for="recurring">Recurring</label>
+                                    <input type="radio" id="recurring" name="payingType" value="EUR">
+                                    <label for="recurring">EUR</label>
                                     <br>
                                 </div>
                             </div>
                             <br>
                             <div>
-                                <input type="checkbox" id="equityCompensation">
-                                <label for="equityCompensation">Equity compensation is available</label>
+                                <input type="checkbox" id="equity" name="equity" value="Equity compensation is available">
+                                <label for="equity">Equity compensation is available</label>
                             </div>
                             <div>
                                 <p>Candidates can’t see what this job pays, but can search for jobs matching
@@ -431,10 +476,10 @@
                             </div>
                         </div>
                         <div>
-                            <p><strong>What should a candidate submit when applying for this job?</strong></p>
-                            <textarea rows="4" cols="100"></textarea>
+                            <span><strong>What should a candidate submit when applying for this job?</strong></span>
+                            <textarea rows="2" cols="100" id="url" name="url"></textarea>
                         </div>
-                        <div>
+                        <div style="line-height: 20px; font-size: 14px">
                             Example: “Include your LinkedIn and GitHub profiles.” We now require candidates to
                             apply through the job board only. Do not include any contact information here.
                             Candidates CANNOT attach resumes or other documents, so do not ask for that
@@ -442,15 +487,17 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
             <div>
                 <div>
-                    <h2>Next, tell us about your organization</h2>
+                    <h2 style="color: #816894">Next, tell us about your organization</h2>
                     <div>
                         <div>
                             <h4>Employer name</h4>
                         </div>
                         <div>
-                            <input type="text" id="employerName">
+                            <input type="text" id="organizationName" name="organizationName">
                             <p>The name of the organization where the position is. If your stealth startup doesn't
                                 have a name yet, use your own. We do not accept posts from third parties such as
                                 recruitment consultants. Such posts may be removed without notice</p>
@@ -458,19 +505,10 @@
                     </div>
                     <div>
                         <div>
-                            <h4>Logo</h4>
-                        </div>
-                        <div>
-                            <input type="file"><br>
-                            <p>Optional — Your organization’s logo will appear at the top of your post.</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
                             <h4>URL</h4>
                         </div>
                         <div>
-                            <input type="text">
+                            <input type="text" name="organizationUrl" id="organizationUrl" required>
                             <p>Your organization’s website</p>
                         </div>
                     </div>
@@ -479,7 +517,7 @@
                             <h4>Email</h4>
                         </div>
                         <div>
-                            <input>
+                            <input type="text" name="organizationEmail" id="organizationEmail" required>
                             <p>This is where we’ll send your confirmation email and all job applications.
                                 We recommend using a shared email address such as jobs@your-organization.com.
                                 <strong>Listings are classified by your email domain</strong>, so use a work
@@ -488,14 +526,14 @@
                         </div>
                     </div>
                     <div>
-                        <p>Only you, Aman Sachan, will be able to respond to candidates. To allow others to
+                        <p>Only you, <strong><span th:text="${loggedInUser}"></span></strong>, will be able to respond to candidates. To allow others to
                             respond, add them as a collaborator.</p>
                     </div>
                     <div>
                         <div>Collaborators</div>
                         <br>
                         <div>
-                            <input type="text">
+                            <input type="text" name="collaborators" id="collaborators">
                             <p>If someone is helping you evaluate candidates, type their names here.
                                 They must have a Hasgeek account. They will not receive email notifications
                                 — use a shared email address above for that — but they will be able to
@@ -507,11 +545,11 @@
                             this post?</div>
                         <div>
                             <div>
-                                <input type="radio" id="notOk">
+                                <input type="radio" id="notOk" name="contactYou" value="NOT OK">
                                 <label for="notOk">No, it is NOT OK</label>
                                 <br>
 
-                                <input type="radio" id="recruitersContact">
+                                <input type="radio" id="recruitersContact" name="contactYou" value="OK">
                                 <label for="recruitersContact">Yes, recruiters may contact me</label>
                                 <br>
                             </div>
@@ -526,7 +564,7 @@
                             please report it to <a>support@hasgeek.com</a> and we will block their account</p>
                     </div>
                     <div>
-                        <button>Review your post</button>
+                        <button type="submit">Review your post</button>
                     </div>
                 </div>
             </div>
@@ -538,5 +576,42 @@
                 Twitter</a> to find out when new jobs are posted.</p>
         </div>
     </footer>
+
+<script>
+
+    function toggleDropdown(id, event) {
+        event.preventDefault(); // Prevent form submission
+
+        var dropdown = document.getElementById(id);
+        var dropdowns = document.querySelectorAll('.dropdown-content');
+        dropdowns.forEach(function(d) {
+            if (d.id !== id) {
+                d.style.display = 'none';
+            }
+        });
+        dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
+    }
+
+    document.getElementById('search').addEventListener('input', function(event) {
+        const searchValue = event.target.value.toLowerCase();
+        const labels = document.querySelectorAll('#dropdown1 label span');
+
+        labels.forEach(label => {
+            const location = label.textContent.toLowerCase();
+            const checkbox = label.parentElement.querySelector('input[type="checkbox"]');
+            if (location.includes(searchValue)) {
+                label.parentElement.style.display = 'block';
+            } else {
+                label.parentElement.style.display = 'none';
+                checkbox.checked = false; // Uncheck hidden checkboxes
+            }
+        });
+
+        // Prevent form submission
+        event.preventDefault();
+        return false;
+    });
+
+</script>
 </body>
 </html>

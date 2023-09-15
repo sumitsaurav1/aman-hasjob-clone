@@ -3,6 +3,8 @@ package com.aman.majorProject.hasJob.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "job")
@@ -24,7 +26,7 @@ public class Job {
     @Column(name = "location")
     private String location;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String jobDescription;
 
     @Column(name = "paying_type")
@@ -39,15 +41,24 @@ public class Job {
     @Column(name = "posted_on")
     private LocalDate postedOn;
 
-    @Column(name = "organization_id", nullable = false)
-    private int organizationId;
+    @Column(name = "perks")
+    private String perks;
+
+    @Column(name = "equity")
+    private String equity;
+
+    @Column(name = "relocation")
+    private String relocation;
+
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+    private List<Application> applications;
 
     @ManyToOne
-    @JoinColumn(name = "organization_id", insertable = false, updatable = false)
-    private Organization organization;
+    @JoinColumn(name = "organization_id")
+    private Organizations organization;
 
-//    @OneToMany
-//    private Users user;
+    @ManyToMany(mappedBy = "jobs", cascade = CascadeType.ALL)
+    private List<Users> users = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -129,12 +140,44 @@ public class Job {
         this.postedOn = postedOn;
     }
 
-    public int getOrganizationId() {
-        return organizationId;
+    public String getPerks() {
+        return perks;
     }
 
-    public void setOrganizationId(int organizationId) {
-        this.organizationId = organizationId;
+    public void setPerks(String perks) {
+        this.perks = perks;
+    }
+
+    public String getEquity() {
+        return equity;
+    }
+
+    public void setEquity(String equity) {
+        this.equity = equity;
+    }
+
+    public String getRelocation() {
+        return relocation;
+    }
+
+    public void setRelocation(String relocation) {
+        this.relocation = relocation;
+    }
+
+    public List<Application> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
+    }
+
+    public Organizations getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organizations organization) {
+        this.organization = organization;
     }
 
     @Override
@@ -150,7 +193,9 @@ public class Job {
                 ", url='" + url +
                 ", postedBy='" + postedBy +
                 ", postedOn=" + postedOn +
-                ", organizationId=" + organizationId +
+                ", perks='" + perks +
+                ", equity='" + equity +
+                ", relocation='" + relocation +
                 '}';
     }
 }

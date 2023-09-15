@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>View Job</title>
@@ -35,10 +36,7 @@
         .first-div .right-panel {
             margin-right: 70px;
             padding: 10px;
-        }
-
-        .first-div .right-panel a {
-            margin-right: 10px;
+            display: flex;
         }
 
         .dropdown {
@@ -167,7 +165,7 @@
             border-radius: 5px;
         }
 
-        input[type="text"], input[type="email"] {
+        input[type="text"], input[type="email"], input[type="tel"] {
             width: 100%;
             padding: 10px;
             margin: 5px 0;
@@ -251,20 +249,63 @@
             font-size: 15px;
         }
 
+        .button-container {
+            margin-right: 10px; /* Adjust margin as needed */
+        }
 
+        .btn {
+            padding: 5px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: #ff0000;
+            color: black;
+        }
+
+        .company {
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
+        }
+
+        .company #company-name {
+            font-size: 22px;
+            padding-bottom: 5px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
 <header class="header">
     <div class="first-div">
         <div class="left-panel">
-            <img src="" alt="logo">
+            <img src="https://static.hasjob.co/static/img/hasjob-logo.png" alt="logo"
+                 width="25px" height="25px">
             <span>HasJob</span>
             <span>The Hasgeek Job Board</span>
         </div>
         <div class="right-panel">
-            <a href="#">Login</a>
-            <span><img src="" alt="icon"></span>
+            <div class="button-container" sec:authorize="isAuthenticated()">
+                <form th:action="@{/job/createForm}" method="get">
+                    <button class="btn">Post a Job</button>
+                </form>
+            </div>
+            <div class="button-container" sec:authorize="isAuthenticated()">
+                <form th:action="@{/job/dashboard}" method="get">
+                    <button class="btn">Back</button>
+                </form>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                <form th:action="@{/user/loginForm}" method="get">
+                    <button class="btn">Login</button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -275,7 +316,8 @@
                 <div class="dropdown-content" id="dropdown1">
                     <input id="search" type="text" placeholder="Search...">
                     <label th:each="location : ${locations}">
-                        <input type="checkbox" th:value="${location}" name="location">
+                        <input type="checkbox" th:value="${location}" name="location"
+                               th:checked="${checkedLocations != null and #strings.contains(checkedLocations,location)}">
                         <span th:text="${location}"></span>
                     </label>
                 </div>
@@ -285,7 +327,8 @@
                 <button class="dropbtn" onclick="toggleDropdown('dropdown2',event)">Job Type</button>
                 <div class="dropdown-content" id="dropdown2">
                     <label th:each="jobType : ${jobTypes}">
-                        <input type="checkbox" th:value="${jobType}" name="jobType">
+                        <input type="checkbox" th:value="${jobType}" name="filterJobType"
+                               th:checked="${checkedJobType != null and #strings.contains(checkedJobType,jobType)}">
                         <span th:text="${jobType}"></span>
                     </label>
                 </div>
@@ -295,7 +338,8 @@
                 <button class="dropbtn" onclick="toggleDropdown('dropdown3',event)">Job Category</button>
                 <div class="dropdown-content" id="dropdown3">
                     <label th:each="jobCategory : ${jobCategories}">
-                        <input type="checkbox" th:value="${jobCategory}" name="jobCategory">
+                        <input type="checkbox" th:value="${jobCategory}" name="filterJobCategory"
+                               th:checked="${checkedJobCategory != null and #strings.contains(checkedJobCategory,jobCategory)}">
                         <span th:text="${jobCategory}"></span>
                     </label>
                 </div>
@@ -304,15 +348,16 @@
             <div class="dropdown">
                 <button class="dropbtn" onclick="toggleDropdown('dropdown4',event)">Pay</button>
                 <div class="dropdown-content" id="dropdown4">
-                    <label th:each="pay : ${payOptions}">
-                        <input type="checkbox" th:value="${pay}" name="pay">
-                        <span th:text="${jobCategory}"></span>
+                    <label th:each="payingType : ${payOptions}">
+                        <input type="checkbox" th:value="${payingType}" name="filterPayingType"
+                               th:checked="${checkedPayingType != null and #strings.contains(checkedPayingType,payingType)}">
+                        <span th:text="${payingType}"></span>
                     </label>
                 </div>
             </div>
 
             <div class="search">
-                <input id="searchInput" type="text" name="search" placeholder="Search..."
+                <input id="searchInput" type="text" name="searchInput" placeholder="Search..."
                        th:value="${search}">
             </div>
         </div>
@@ -338,76 +383,82 @@
             </section>
             <section class="having-sidebar">
                 <div class="main-content">
-                    <p th:text="">
+                    <p th:text="${job.jobDescription}">
                         <br>
                         <br>
-                        https://www.adderall.shop/product-page/BuyAdderallOnlineWithoutPrescription</p>
+                        <p th:if="job.url != null" th:text="${job.url}"></p></p>
                 </div>
                 <div class="sidebar">
                     <a>Bookmark this</a>
                     <a>Email this</a>
-                    <a>Tweet this</a>
-                    <a>Share on Facebook</a>
+                    <a th:href="@{'http://www.twitter.com/intent/?text=' + ${job.jobRole}}">Tweet this</a>
+                    <a href="http://www.facebook.com">Share on Facebook</a>
                     <a>Report this</a>
                 </div>
             </section>
             <section>
-                <div>
+                <div sec:authorize="isAuthenticated()">
                     <h2>Apply for this position</h2>
                     <button id="showButton" onclick="toggleInstructions()">Show Instructions</button>
+                    <form th:action="@{/job/bookmark}" method="post">
+                        <input type="hidden" name="jobId" th:value="${job.id}">
+                        <button type="submit" style="margin-top: 5px">Save</button>
+                    </form>
                     <p>Candidate should have great marketing & SEO Skills</p>
                 </div>
                 <div id="instructions" style="display: none">
-                    <div>
+                    <form th:action="@{/application/save}" method="post">
                         <div>
-                            <h4>Name</h4>
+                            <div>
+                                <h4>Name</h4>
+                            </div>
+                            <div>
+                                <input type="text" name="name" th:value="${loggedInUser}" readonly>
+                                <p>You may edit your name from <a>your profile</a></p>
+                            </div>
                         </div>
                         <div>
-                            <input type="text">
-                            <p>You may edit your name from <a>your profile</a></p>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <h4>Email</h4>
-                        </div>
-                        <div>
-                            <input type="radio">
-                            <span>amansachan1810@gmail.com</span>
-                            <p>Add new email addresses from <a>your profile</a></p>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <h4>Phone</h4>
+                            <div>
+                                <h4>Email</h4>
+                            </div>
+                            <div>
+                                <input type="text" name="email">
+                                <p>Add new email addresses from <a>your profile</a></p>
+                            </div>
                         </div>
                         <div>
-                            <input type="text">
-                            <p>A phone number the employer can reach you at</p>
+                            <div>
+                                <h4>Phone</h4>
+                            </div>
+                            <div>
+                                <input type="tel" name="phone">
+                                <p>A phone number the employer can reach you at</p>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <h4>Job Description</h4>
-                        <textarea rows="10" cols="100"></textarea>
-                        <p>Please provide all details the employer has requested. To add a resume,
-                            post it on LinkedIn or host the file on Dropbox and insert the link here</p>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="optional">
-                        <label for="optional">Optional: sign me up for a better Hasjob experience</label>
-                        <br>
+                        <div>
+                            <h4>Job Application</h4>
+                            <textarea rows="10" cols="100" name="jobApplication"></textarea>
+                            <p>Please provide all details the employer has requested. To add a resume,
+                                post it on LinkedIn or host the file on Dropbox and insert the link here</p>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="optional" name="contactYouForNewFeatures">
+                            <label for="optional">Optional: sign me up for a better Hasjob experience</label>
+                            <br>
 
-                        <p>Hasjob’s maintainers may contact you about new features and can see this application
-                            for reference</p>
-                        <button>Apply</button>
-                    </div>
-                    <div>
-                        <p><strong>Note:</strong> Be selective about the jobs you apply for and mindful of the
-                            employer’s time. If too many employers report you for wasting their time with an
-                            irrelevant application, you will be barred from applying to more jobs. Employers can
-                            see how many other jobs you are applying to simultaneously and your status
-                            with them, but not which jobs you are applying to.</p>
-                    </div>
+                            <p>Hasjob’s maintainers may contact you about new features and can see this application
+                                for reference</p>
+                            <input type="hidden" name="jobId" th:value="${job.id}">
+                            <button type="submit">Apply</button>
+                        </div>
+                        <div>
+                            <p><strong>Note:</strong> Be selective about the jobs you apply for and mindful of the
+                                employer’s time. If too many employers report you for wasting their time with an
+                                irrelevant application, you will be barred from applying to more jobs. Employers can
+                                see how many other jobs you are applying to simultaneously and your status
+                                with them, but not which jobs you are applying to.</p>
+                        </div>
+                    </form>
                 </div>
             </section>
             <section>
@@ -457,6 +508,17 @@
         event.preventDefault();
         return false;
     });
+
+        function toggleInstructions() {
+            var form = document.getElementById("instructions");
+            var button = document.getElementById("showButton");
+
+            if (form.style.display === "none" || form.style.display === "") {
+                form.style.display = "block";
+                button.style.display = "none";
+            }
+        }
+
     </script>
 </body>
 </html>

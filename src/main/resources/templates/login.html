@@ -70,7 +70,7 @@
 <body>
 <div class="container">
     <h2>Login</h2>
-    <form th:action="@{/login}" method="post">
+    <form th:action="@{/authenticateTheUser}" method="post">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
@@ -80,6 +80,8 @@
             <input type="password" id="password" name="password" required>
         </div>
         <button type="submit">Login</button>
+        <br>
+        <p>Don't have an account? <a th:href="@{/user/registerForm}">Create one</a></p>
     </form>
 </div>
 </body>

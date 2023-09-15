@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "organization")
-public class Organization {
+public class Organizations {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +27,10 @@ public class Organization {
     private String collaborators;
 
     @Column(name = "contact_you")
-    private boolean contactYou;
+    private String contactYou;
 
-    @OneToMany(mappedBy = "organization", cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.PERSIST})
-    private List<Job> job = new ArrayList<>();
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    private List<Job> job;
 
     public int getId() {
         return id;
@@ -72,20 +72,20 @@ public class Organization {
         this.collaborators = collaborators;
     }
 
-    public boolean isContactYou() {
-        return contactYou;
-    }
-
-    public void setContactYou(boolean contactYou) {
-        this.contactYou = contactYou;
-    }
-
     public List<Job> getJob() {
         return job;
     }
 
     public void setJob(List<Job> job) {
         this.job = job;
+    }
+
+    public String getContactYou() {
+        return contactYou;
+    }
+
+    public void setContactYou(String contactYou) {
+        this.contactYou = contactYou;
     }
 
     @Override
@@ -97,7 +97,6 @@ public class Organization {
                 ", organizationEmail='" + organizationEmail +
                 ", collaborators='" + collaborators +
                 ", contactYou=" + contactYou +
-                ", job=" + job +
                 '}';
     }
 }

@@ -44,9 +44,9 @@ public interface JobRepository extends JpaRepository<Job,Integer> {
             "WHERE " +
             "(:searchTerm IS NULL OR " +
             "LOWER(j.location) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(j.jobType) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(j.jobRole) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
             "LOWER(j.jobCategory) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-            "LOWER(j.payingType) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) AND " +
+            "LOWER(j.jobType) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) AND " +
             "(:emptyLocations = true OR j.location IN :checkedLocations) AND " +
             "(:emptyJobTypes = true OR j.jobType IN :checkedJobType) AND " +
             "(:emptyJobCategories = true OR j.jobCategory IN :checkedJobCategory) AND " +
@@ -81,6 +81,6 @@ public interface JobRepository extends JpaRepository<Job,Integer> {
     );
 
 
-//    @Query("SELECT j FROM Job j WHERE j.location = :selectedValue")
-//    List<Job> findJobsBySelectedValue(String selectedValue);
+    @Query("SELECT j FROM Job j WHERE j.location = :selectedValue")
+    List<Job> findJobsBySelectedValue(String selectedValue);
 }

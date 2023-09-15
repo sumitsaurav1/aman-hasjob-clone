@@ -66,9 +66,9 @@
     </style>
 </head>
 <body>
-<div class="container" th:fragment="registerForm">
+<div class="container">
     <h2>Register</h2>
-    <form th:action="@{/register}" method="post">
+    <form th:action="@{/user/register}" method="post">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" class="form-control" required>
@@ -86,6 +86,8 @@
             <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary">Register</button>
+        <br>
+        <p>Already have an account? <a th:href="@{/user/loginForm}">Login here</a></p>
     </form>
 </div>
 </body>

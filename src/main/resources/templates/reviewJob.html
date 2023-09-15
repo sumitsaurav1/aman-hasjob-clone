@@ -1,10 +1,375 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Review Job</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: #EBE7E4;
+            box-shadow: 0px 0px 10px 0px grey;
+        }
+
+        .first-div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 0px;
+        }
+
+        .first-div .left-panel {
+            margin-left: 70px;
+            padding: 10px;
+        }
+
+        .first-div .right-panel {
+            margin-right: 70px;
+            padding: 10px;
+        }
+
+        .first-div .right-panel a {
+            margin-right: 10px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content input[type="checkbox"],
+        .dropdown-content label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #f9f9f9;
+            min-width: 300px;
+            min-height: 300px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        .dropdown-content label {
+            display: block;
+            padding: 2px 5px;
+            margin: 0px 5px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content #search {
+            width: 90%;
+            height: 30px;
+            font-size: 15px;
+            padding: 0px 5px;
+            margin: 10px;
+        }
+
+        .second-div {
+            display: flex;
+            justify-content: space-between;
+            margin: 0px 75px 5px 70px;
+            padding: 3px;
+        }
+
+        .second-div button {
+            width: 222px;
+            height: 35px;
+            text-align: left;
+            font-size: 13px;
+            background-color: #F5F5F5;
+            border: 1px solid grey;
+            border-radius: 3px;
+            cursor: pointer;
+            padding-left: 5px;
+            margin: 0px 5px 5px 5px;
+            color: black;
+        }
+
+        .header .search input {
+            padding: 10px;
+            width: 215px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 0px;
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        main {
+            max-width: 875px;
+            margin: 50px auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0px 0px 10px grey;
+            padding: 20px 40px;
+        }
+
+        h1 {
+            color: #df5e0e;
+            font-size: 35px;
+            margin: 0 0 10px;
+        }
+
+        h2, h4 {
+            color: #333;
+            margin: 0 0 10px;
+        }
+
+        p {
+            margin: 0 0 10px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        input[type="text"], input[type="file"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #ccc;
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer p {
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+
+        .having-sidebar {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .main-content {
+            width: 70%;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 50px;
+            width: 100px auto;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar a {
+            padding: 5px 10px;
+            color: black;
+            font-size: 15px;
+        }
+    </style>
 </head>
 <body>
+<header class="header">
+    <div class="first-div">
+        <div class="left-panel">
+            <img src="https://static.hasjob.co/static/img/hasjob-logo.png" alt="logo"
+                 width="25px" height="25px">
+            <span>HasJob</span>
+            <span>The Hasgeek Job Board</span>
+        </div>
+    </div>
 
+    <form th:action="@{/job/dashboard}" method="get" onchange="this.submit()">
+        <div class="second-div">
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('dropdown1',event)">Location</button>
+                <div class="dropdown-content" id="dropdown1">
+                    <input id="search" type="text" placeholder="Search...">
+                    <label th:each="location : ${locations}">
+                        <input type="checkbox" th:value="${location}" name="location">
+                        <span th:text="${location}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('dropdown2',event)">Job Type</button>
+                <div class="dropdown-content" id="dropdown2">
+                    <label th:each="jobType : ${jobTypes}">
+                        <input type="checkbox" th:value="${jobType}" name="jobType">
+                        <span th:text="${jobType}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('dropdown3',event)">Job Category</button>
+                <div class="dropdown-content" id="dropdown3">
+                    <label th:each="jobCategory : ${jobCategories}">
+                        <input type="checkbox" th:value="${jobCategory}" name="jobCategory">
+                        <span th:text="${jobCategory}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown('dropdown4',event)">Pay</button>
+                <div class="dropdown-content" id="dropdown4">
+                    <label th:each="pay : ${payOptions}">
+                        <input type="checkbox" th:value="${pay}" name="pay">
+                        <span th:text="${jobCategory}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="search">
+                <input id="searchInput" type="text" name="search" placeholder="Search..."
+                       th:value="${search}">
+            </div>
+        </div>
+    </form>
+</header>
+
+<main>
+    <form th:action="@{/job/createJob}" method="post">
+        <input type="hidden" name="organizationName" th:value="${organization.organizationName}">
+        <input type="hidden" name="organizationUrl" th:value="${organization.organizationUrl}">
+        <input type="hidden" name="organizationEmail" th:value="${organization.organizationEmail}">
+        <input type="hidden" name="collaborators" th:value="${organization.collaborators}">
+        <input type="hidden" name="contactYou" th:value="${organization.contactYou}">
+        <input type="hidden" name="jobType" th:value="${job.jobType}">
+        <input type="hidden" name="jobCategory" th:value="${job.jobCategory}">
+        <input type="hidden" name="jobRole" th:value="${job.jobRole}">
+        <input type="hidden" name="location" th:value="${job.location}">
+        <input type="hidden" name="jobDescription" th:value="${job.jobDescription}">
+        <input type="hidden" name="payingType" th:value="${job.payingType}">
+        <input type="hidden" name="url" th:value="${job.url}">
+        <input type="hidden" name="postedBy" th:value="${job.postedBy}">
+        <input type="hidden" name="postedOn" th:value="${job.postedOn}">
+        <input type="hidden" name="equity" th:value="${job.equity}">
+        <input type="hidden" name="perks" th:value="${job.perks}">
+        <input type="hidden" name="relocation" th:value="${job.relocation}">
+        <section>
+            <div>
+                <h1 th:text="${job.jobRole}"></h1>
+                <p>Posted <span th:text="${job.postedOn}"></span> by <span th:text="${job.postedBy}"></span></p>
+            </div>
+            <div>
+                <ul>
+                    <li><a>Adderall shop</a> |</li>
+                    <li><a th:text="${job.location}"></a> |</li>
+                    <li><a>adderall.shop</a> |</li>
+                    <li><a th:text="${job.jobType}"></a> |</li>
+                    <li><a th:text="${job.jobCategory}"></a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="having-sidebar">
+            <div class="main-content">
+                <p th:text="${job.jobDescription}"></p><br><br>
+                <p th:if="job.perks != null" th:text="${job.perks}"></p><br><br>
+                <p th:if="job.url != null" th:text="${job.url}"></p>
+            </div>
+            <div class="sidebar">
+                <a>Bookmark this</a>
+                <a>Email this</a>
+                <a href="http://www.twitter.com">Tweet this</a>
+                <a href="http://www.facebook.com">Share on Facebook</a>
+                <a>Report this</a>
+            </div>
+        </section>
+        <button type="submit">Apply</button>
+        <section>
+            <div><p>It is <strong><span th:text="${organization.contactYou}"></span></strong> for recruiters, HR consultants, and other intermediaries
+                to contact this employer</p></div>
+        </section>
+    </form>
+</main>
+
+<footer>
+    <div>
+        <p>Hasjob is a service of <a>Hasgeek</a>.Subscribe to <a>the feed</a>or follow <a href="https://twitter.com/hasjob">
+            @hasjob on Twitter</a> to find out when new jobs are posted.</p>
+    </div>
+</footer>
 </body>
 </html>
