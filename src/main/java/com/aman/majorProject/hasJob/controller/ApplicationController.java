@@ -35,7 +35,7 @@ public class ApplicationController {
             application.setAppliedOn(LocalDate.now());
             applicationRepository.save(application);
         }
-        return "redirect:/job/dashboard";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/viewAppliedJobs")

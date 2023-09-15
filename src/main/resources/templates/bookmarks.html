@@ -100,12 +100,12 @@
                 <span th:text="${job.postedOn}"></span>
             </div>
             <div class="box-middle-div">
-                <a th:href="@{/job/viewJob/{id} (id=${job.id})}" th:text="${job.jobRole}"></a>
+                <a th:href="@{/viewJob/{id} (id=${job.id})}" th:text="${job.jobRole}"></a>
             </div>
             <div class="box-bottom-div">
                 <span th:text="${job.postedBy}"></span>
                 <span>
-                        <form method="post" th:action="@{/job/removeBookmark/{jobId} (jobId=${job.id})}">
+                        <form method="post" th:action="@{/removeBookmark/{jobId} (jobId=${job.id})}">
                             <button type="submit">remove</button>
                         </form>
                     </span>
@@ -113,7 +113,7 @@
         </div>
     </div>
     <div class="button-container" sec:authorize="isAuthenticated()">
-        <form method="get" th:action="@{/job/dashboard}">
+        <form method="get" th:action="@{/dashboard}">
             <button class="btn">Back</button>
         </form>
     </div>

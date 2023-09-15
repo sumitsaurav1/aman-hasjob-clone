@@ -292,12 +292,12 @@
         </div>
         <div class="right-panel">
             <div class="button-container" sec:authorize="isAuthenticated()">
-                <form method="get" th:action="@{/job/createForm}">
+                <form method="get" th:action="@{/createForm}">
                     <button class="btn">Post a Job</button>
                 </form>
             </div>
             <div class="button-container" sec:authorize="isAuthenticated()">
-                <form method="get" th:action="@{/job/dashboard}">
+                <form method="get" th:action="@{/dashboard}">
                     <button class="btn">Back</button>
                 </form>
             </div>
@@ -309,7 +309,7 @@
         </div>
     </div>
 
-    <form method="get" onchange="this.submit()" th:action="@{/job/dashboard}">
+    <form method="get" onchange="this.submit()" th:action="@{/dashboard}">
         <div class="second-div">
             <div class="dropdown">
                 <button class="dropbtn" onclick="toggleDropdown('dropdown1',event)">Location</button>
@@ -400,7 +400,7 @@
             <div sec:authorize="isAuthenticated()">
                 <h2>Apply for this position</h2>
                 <button id="showButton" onclick="toggleInstructions()">Show Instructions</button>
-                <form method="post" th:action="@{/job/bookmark}">
+                <form method="post" th:action="@{/bookmark}">
                     <input name="jobId" th:value="${job.id}" type="hidden">
                     <button style="margin-top: 5px" type="submit">Save</button>
                 </form>

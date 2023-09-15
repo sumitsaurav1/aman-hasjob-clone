@@ -28,20 +28,20 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(configurer -> configurer
-                .requestMatchers("/job/createForm").authenticated()
-                .requestMatchers("/job/viewBookmarks").authenticated()
+                .requestMatchers("/createForm").authenticated()
+                .requestMatchers("/viewBookmarks").authenticated()
                 .requestMatchers("/application/viewAppliedJobs").authenticated()
                 .anyRequest().permitAll()
 
         ).formLogin(form -> form
                 .loginPage("/user/loginForm")
                 .loginProcessingUrl("/authenticateTheUser")
-                .defaultSuccessUrl("/job/dashboard")
+                .defaultSuccessUrl("/dashboard")
                 .permitAll()
 
         ).logout(logout -> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/job/dashboard")
+                .logoutSuccessUrl("/dashboard")
                 .permitAll()
 
         );

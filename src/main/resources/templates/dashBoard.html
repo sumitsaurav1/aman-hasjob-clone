@@ -291,12 +291,12 @@
             <div class="right-panel">
                 <div class="oneline">
                     <div class="button-container" sec:authorize="isAuthenticated()">
-                        <form method="get" th:action="@{/job/createForm}">
+                        <form method="get" th:action="@{/createForm}">
                             <button class="btn">Post a Job</button>
                         </form>
                     </div>
                     <div class="button-container" sec:authorize="isAuthenticated()">
-                        <form method="get" th:action="@{/job/viewBookmarks}">
+                        <form method="get" th:action="@{/viewBookmarks}">
                             <button class="btn">Bookmarks</button>
                         </form>
                     </div>
@@ -319,7 +319,7 @@
             </div>
         </div>
 
-        <form method="get" onchange="this.submit()" th:action="@{/job/dashboard}">
+        <form method="get" onchange="this.submit()" th:action="@{/dashboard}">
             <div class="second-div">
                 <div class="dropdown">
                     <button class="dropbtn" onclick="toggleDropdown('dropdown1',event)">Location</button>
@@ -379,7 +379,7 @@
             <div class="filter-heading">
                 <p class="filter-text">In Mumbai? Filter this view :</p>
             </div>
-            <form method="get" th:action="@{/job/dashboard}">
+            <form method="get" th:action="@{/dashboard}">
                 <div class="filter-options">
                     <button class="filter-link" name="selectedValue" type="submit" value="Mumbai">Mumbai, IN</button>
                     <button class="filter-link" name="selectedValue" type="submit" value="Maharashtra">Maharashtra, IN
@@ -401,7 +401,7 @@
                     <span th:text="${job.postedOn}"></span>
                 </div>
                 <div class="box-middle-div">
-                    <a th:href="@{/job/viewJob/{id} (id=${job.id})}" th:text="${job.jobRole}"></a>
+                    <a th:href="@{/viewJob/{id} (id=${job.id})}" th:text="${job.jobRole}"></a>
                 </div>
                 <div class="box-bottom-div">
                     <span th:text="${job.postedBy}"></span>

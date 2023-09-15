@@ -258,7 +258,7 @@
         </div>
     </div>
 
-    <form method="get" onchange="this.submit()" th:action="@{/job/dashboard}">
+    <form method="get" onchange="this.submit()" th:action="@{/dashboard}">
         <div class="second-div">
             <div class="dropdown">
                 <button class="dropbtn" onclick="toggleDropdown('dropdown1',event)">Location</button>
@@ -310,7 +310,7 @@
 </header>
 
 <main>
-    <form method="post" th:action="@{/job/createJob}">
+    <form method="post" th:action="@{/createJob}">
         <input name="organizationName" th:value="${organization.organizationName}" type="hidden">
         <input name="organizationUrl" th:value="${organization.organizationUrl}" type="hidden">
         <input name="organizationEmail" th:value="${organization.organizationEmail}" type="hidden">

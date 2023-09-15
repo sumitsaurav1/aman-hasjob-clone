@@ -16,7 +16,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-@RequestMapping("/job")
 public class JobController {
 
     @Autowired
@@ -60,10 +59,10 @@ public class JobController {
         }
         jobRepository.save(job);
 
-        return "redirect:/job/dashboard";
+        return "redirect:/dashboard";
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping({"/dashboard","/"})
     public String dashboard(Model model,
                             @RequestParam(value = "location", required = false) List<String> checkedLocations,
                             @RequestParam(value = "filterJobType", required = false) List<String> checkedJobType,
@@ -173,7 +172,7 @@ public class JobController {
                 usersRepository.save(user);
             }
         }
-        return "redirect:/job/viewBookmarks";
+        return "redirect:/viewBookmarks";
     }
 
     @GetMapping("/viewBookmarks")
@@ -199,6 +198,6 @@ public class JobController {
 
         user.getJobs().remove(job);
         usersRepository.save(user);
-        return "redirect:/job/viewBookmarks";
+        return "redirect:/viewBookmarks";
     }
 }

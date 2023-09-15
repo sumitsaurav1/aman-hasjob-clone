@@ -244,7 +244,7 @@
         </div>
         <div class="right-panel">
             <div class="button-container" sec:authorize="isAuthenticated()">
-                <form method="get" th:action="@{/job/dashboard}">
+                <form method="get" th:action="@{/dashboard}">
                     <button class="btn">Back</button>
                 </form>
             </div>
@@ -256,7 +256,7 @@
         </div>
     </div>
 
-    <form method="get" onchange="this.submit()" th:action="@{/job/dashboard}">
+    <form method="get" onchange="this.submit()" th:action="@{/dashboard}">
         <div class="second-div">
             <div class="dropdown">
                 <button class="dropbtn" onclick="toggleDropdown('dropdown1',event)">Location</button>
@@ -312,7 +312,7 @@
 </header>
 
 <main>
-    <form method="post" th:action="@{/job/reviewJob}">
+    <form method="post" th:action="@{/reviewJob}">
         <div>
             <div>
                 <h1>Post a Job</h1>
