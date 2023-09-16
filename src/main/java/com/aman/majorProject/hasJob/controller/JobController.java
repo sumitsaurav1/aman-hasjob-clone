@@ -133,6 +133,7 @@ public class JobController {
         List<String> jobTypes = jobRepository.findAllJobType();
         List<String> locations = jobRepository.findAllLocations();
         List<String> payOptions = jobRepository.findAllPay();
+        List<Job> allJobs = jobRepository.findAllJobs();
 
         model.addAttribute("jobCategories",jobCategories);
         model.addAttribute("jobTypes",jobTypes);
@@ -140,6 +141,7 @@ public class JobController {
         model.addAttribute("payOptions",payOptions);
         model.addAttribute("job",job);
         model.addAttribute("loggedInUser",loggedInUser);
+        model.addAttribute("allJobs",allJobs);
         return "viewJob";
     }
 

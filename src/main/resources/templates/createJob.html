@@ -31,6 +31,7 @@
         .first-div .left-panel {
             margin-left: 70px;
             padding: 10px;
+            display: flex;
         }
 
         .first-div .right-panel {
@@ -104,9 +105,10 @@
             border: 1px solid grey;
             border-radius: 3px;
             cursor: pointer;
-            padding-left: 5px;
+            padding-left: 12px;
             margin: 0px 5px 5px 5px;
             color: black;
+            box-shadow: 0px 0px 5px grey;
         }
 
         .header .search input {
@@ -117,6 +119,7 @@
             margin-top: 0px;
             margin-left: 5px;
             font-size: 12px;
+            box-shadow: 0px 0px 5px grey;
         }
 
         main {
@@ -231,6 +234,19 @@
         .oneline {
             display: flex;
         }
+
+        .heading {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .heading .content-1 {
+            margin-right: 400px;
+        }
+
+        .heading .content-2 {
+            margin-right: 350px;
+        }
     </style>
 </head>
 <body>
@@ -239,19 +255,23 @@
         <div class="left-panel">
             <img alt="logo" height="25px"
                  src="https://static.hasjob.co/static/img/hasjob-logo.png" width="25px">
-            <span>HasJob</span>
-            <span>The Hasgeek Job Board</span>
+            <div class="company">
+                <span id="company-name">HasJob</span>
+                <span>The Hasgeek Job Board</span>
+            </div>
         </div>
         <div class="right-panel">
-            <div class="button-container" sec:authorize="isAuthenticated()">
-                <form method="get" th:action="@{/dashboard}">
-                    <button class="btn">Back</button>
-                </form>
-            </div>
-            <div sec:authorize="!isAuthenticated()">
-                <form method="get" th:action="@{/user/loginForm}">
-                    <button class="btn">Login</button>
-                </form>
+            <div class="oneline">
+                <div class="button-container" sec:authorize="isAuthenticated()">
+                    <form method="get" th:action="@{/dashboard}">
+                        <button class="btn">Back</button>
+                    </form>
+                </div>
+                <div sec:authorize="!isAuthenticated()">
+                    <form method="get" th:action="@{/user/loginForm}">
+                        <button class="btn">Login</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -311,7 +331,7 @@
     </form>
 </header>
 
-<main>
+<main style="border: 1px solid #808080">
     <form method="post" th:action="@{/reviewJob}">
         <div>
             <div>
@@ -325,10 +345,11 @@
                 </div>
             </div>
         </div>
+
         <div>
-            <div>
+            <div style="margin-top: 25px">
                 <h2 style="color: #816894">First, tell us about the position</h2>
-                <div>
+                <div class="heading" style="margin-top: 25px">
                     <div>
                         <h4>Headline</h4>
                     </div>
@@ -338,11 +359,11 @@
                             <a>A/B test it?</a></p>
                     </div>
                 </div>
-                <div>
+                <div class="heading" style="margin-top: 25px">
                     <div>
                         <h4>Type</h4>
                     </div>
-                    <div>
+                    <div class="content-1" >
                         <input id="fullTimeEmployment" name="jobType" type="radio" value="Full-time employment">
                         <label for="fullTimeEmployment">Full-time employment</label>
                         <br>
@@ -368,11 +389,11 @@
                         <br>
                     </div>
                 </div>
-                <div>
+                <div class="heading" style="margin-top: 25px">
                     <div>
                         <h4>Category</h4>
                     </div>
-                    <div>
+                    <div class="content-2">
                         <input id="programming" name="jobCategory" type="radio" value="Programming">
                         <label for="programming">Programming</label>
                         <br>
@@ -423,7 +444,7 @@
                         <br>
                     </div>
                 </div>
-                <div>
+                <div style="margin-top: 25px">
                     <div>
                         <h4>Location</h4>
                     </div>
@@ -437,7 +458,7 @@
                             <label for="relocation">Relocation assistance available</label>
                         </div>
                     </div>
-                    <div>
+                    <div style="margin-top: 25px">
                         <div>
                             <h4>Description</h4>
                             <textarea cols="100" id="description" name="jobDescription" rows="8"></textarea>
@@ -449,7 +470,7 @@
                             <label for="jobPerks">Job perks are available</label>
                         </div>
                     </div>
-                    <div>
+                    <div style="margin-top: 25px">
                         <div>
                             <p><strong>what does this job pay ?</strong></p>
                             <div>
@@ -471,16 +492,16 @@
                             <input id="equity" name="equity" type="checkbox" value="Equity compensation is available">
                             <label for="equity">Equity compensation is available</label>
                         </div>
-                        <div>
+                        <div style="margin-top: 8px">
                             <p>Candidates can’t see what this job pays, but can search for jobs matching
                                 their expected pay scale</p>
                         </div>
                     </div>
-                    <div>
+                    <div style="margin-top: 25px">
                         <span><strong>What should a candidate submit when applying for this job?</strong></span>
                         <textarea cols="100" id="url" name="url" rows="2"></textarea>
                     </div>
-                    <div style="line-height: 20px; font-size: 14px">
+                    <div style="line-height: 20px; font-size: 14px; ">
                         Example: “Include your LinkedIn and GitHub profiles.” We now require candidates to
                         apply through the job board only. Do not include any contact information here.
                         Candidates CANNOT attach resumes or other documents, so do not ask for that
@@ -493,7 +514,7 @@
         <div>
             <div>
                 <h2 style="color: #816894">Next, tell us about your organization</h2>
-                <div>
+                <div style="margin-top: 25px">
                     <div>
                         <h4>Employer name</h4>
                     </div>
@@ -504,7 +525,7 @@
                             recruitment consultants. Such posts may be removed without notice</p>
                     </div>
                 </div>
-                <div>
+                <div style="margin-top: 25px">
                     <div>
                         <h4>URL</h4>
                     </div>
@@ -513,7 +534,7 @@
                         <p>Your organization’s website</p>
                     </div>
                 </div>
-                <div>
+                <div style="margin-top: 25px">
                     <div>
                         <h4>Email</h4>
                     </div>
@@ -526,14 +547,13 @@
                             you respond</p>
                     </div>
                 </div>
-                <div>
+                <div style="margin-top: 25px">
                     <p>Only you, <strong><span th:text="${loggedInUser}"></span></strong>, will be able to respond to
                         candidates. To allow others to
                         respond, add them as a collaborator.</p>
                 </div>
                 <div>
-                    <div>Collaborators</div>
-                    <br>
+                    <div><h4>Collaborators</h4></div>
                     <div>
                         <input id="collaborators" name="collaborators" type="text">
                         <p>If someone is helping you evaluate candidates, type their names here.
@@ -542,9 +562,9 @@
                             respond to candidates who apply</p>
                     </div>
                 </div>
-                <div>
-                    <div>Is it okay for recruiters and other intermediaries to contact you about
-                        this post?
+                <div style="margin-top: 25px">
+                    <div style="font-weight:600;"><p>Is it okay for recruiters and other intermediaries to contact you about
+                        this post?</p>
                     </div>
                     <div>
                         <div>
@@ -557,11 +577,11 @@
                             <br>
                         </div>
                     </div>
-                    <div>
+                    <div style="margin-top: 10px">
                         <p>We’ll display a notice to this effect on the post</p>
                     </div>
                 </div>
-                <div>
+                <div style="margin-top: 25px">
                     <p><strong>Warning:</strong> Many recruiters will ignore your preference and contact
                         you anyway. Do not reveal your phone number in the post. If you receive an email,
                         please report it to <a>support@hasgeek.com</a> and we will block their account</p>

@@ -30,6 +30,7 @@
         .first-div .left-panel {
             margin-left: 70px;
             padding: 10px;
+            display: flex;
         }
 
         .first-div .right-panel {
@@ -106,6 +107,7 @@
             padding-left: 5px;
             margin: 0px 5px 5px 5px;
             color: black;
+            box-shadow: 0px 0px 5px grey;
         }
 
         .header .search input {
@@ -116,6 +118,7 @@
             margin-top: 0px;
             margin-left: 5px;
             font-size: 12px;
+            box-shadow: 0px 0px 5px grey;
         }
 
         main {
@@ -245,6 +248,18 @@
             color: black;
             font-size: 15px;
         }
+
+        .company {
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
+        }
+
+        .company #company-name {
+            font-size: 22px;
+            padding-bottom: 5px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -253,8 +268,10 @@
         <div class="left-panel">
             <img alt="logo" height="25px"
                  src="https://static.hasjob.co/static/img/hasjob-logo.png" width="25px">
-            <span>HasJob</span>
-            <span>The Hasgeek Job Board</span>
+            <div class="company">
+                <span id="company-name">HasJob</span>
+                <span>The Hasgeek Job Board</span>
+            </div>
         </div>
     </div>
 
@@ -357,7 +374,7 @@
                 <a>Report this</a>
             </div>
         </section>
-        <button type="submit">Apply</button>
+        <button style="margin-bottom: 10px;" type="submit">Post Job</button>
         <section>
             <div><p>It is <strong><span th:text="${organization.contactYou}"></span></strong> for recruiters, HR
                 consultants, and other intermediaries
